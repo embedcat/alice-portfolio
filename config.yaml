@@ -1,0 +1,71 @@
+baseURL: http://alice.rockevents.ru # todo: change site url.
+title: Анастасия Смолова
+defaultContentLanguage: 'ru'
+theme: eternity
+googleAnalytics: '' # todo: set your analytics id.
+
+params:
+  image: /images/banner.png
+  logo: logo1.png # todo: add your custom logo to static/
+  subtitle: Графический дизайнер, художник # todo: change default subtitle for your website.
+  # copyright: All rights reserved. # todo: set your copyright type.
+  # author: Lovely Author # todo: set your full name.
+  dontShowSource: true # please, do not do this :)
+  portfolio:
+    columns:
+      desktop:
+        design: 3
+        graphics: 3
+        arts: 3
+        archive: 6
+        default: 3
+      mobile:
+        default: 1
+  socials:
+    # todo: change these links.
+    - icon: 'far fa-envelope fa-lg'
+      url: 'mailto:alisadesign2020@gmail.com'
+    - icon: 'fab fa-instagram fa-lg'
+      url: 'https://www.instagram.com/anastasiiasmolova1990'
+    - icon: "far fa-file fa-lg"
+      url: 'https://kaluga.hh.ru/resume/78689a34ff08ab96480039ed1f416446714777'
+  homepage: "/about" # homepage link, mostly same with menu.main[0]
+  specialPages:
+    - work
+    - archive
+  bypassWelcomePage: true # redirects "/" to "homepage" when it's true.
+  disableWelcomePageBackground: false # disables the background image on the homepage
+  plausible: '' # todo: set your plausible id.
+  disableRadius: true
+  moveIt: true  # Moves Title and Meta info down, only visible when scroll.
+  disableAlwaysResize: false
+
+markup:
+  defaultMarkdownHandler: goldmark
+  goldmark:
+    renderer:
+      unsafe: true
+
+taxonomies:
+  tag: tags
+
+permalinks:
+  work: ":filename/"
+
+menu:
+  main:
+    - name: обо мне
+      url: /about/
+      weight: 1
+    - name: дизайн
+      url: /tags/design/
+      weight: 2
+    - name: живопись
+      url: /tags/arts/
+      weight: 3
+    - name: графика
+      url: /tags/graphics/
+      weight: 4
+    - name: галерея
+      url: /tags/archive/
+      weight: 5
