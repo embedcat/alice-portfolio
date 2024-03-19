@@ -1,7 +1,7 @@
 ---
-weight: 1
+weight: 60
 images:
-- /images/arts/arts-6.jpg
+- /images/arts/town2.jpg
 tags:
 - archive # all posts
 - arts

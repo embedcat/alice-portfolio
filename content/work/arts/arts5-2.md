@@ -1,7 +1,7 @@
 ---
-weight: 1
+weight: 59
 images:
-- /images/arts/arts-7.jpg
+- /images/arts/birds.jpeg
 tags:
 - archive # all posts
 - arts
@@ -9,4 +9,3 @@ hideTitle: true
 hideExif: true
 hideDate: true
 ---
-

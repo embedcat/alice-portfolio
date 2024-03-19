@@ -1,7 +1,7 @@
 ---
-weight: 1
+weight: 100
 images:
-- /images/arts/arts-12.jpeg
+- /images/arts/body1.jpeg
 tags:
 - archive # all posts
 - arts

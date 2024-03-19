@@ -1,7 +1,7 @@
 ---
-weight: 1
+weight: 89
 images:
-- /images/arts/arts-2.jpeg
+- /images/arts/kudu.jpeg
 tags:
 - archive # all posts
 - arts

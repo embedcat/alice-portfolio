@@ -1,8 +1,9 @@
 ---
-weight: 1
+weight: 90
 images:
-- /images/arts/arts-14.jpeg
+- /images/arts/town1.jpg
 tags:
+- work # homepage
 - archive # all posts
 - arts
 hideTitle: true

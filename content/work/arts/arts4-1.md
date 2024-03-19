@@ -1,7 +1,7 @@
 ---
-weight: 1
+weight: 70
 images:
-- /images/arts/arts-8.png
+- /images/arts/fish1.png
 tags:
 - archive # all posts
 - arts

@@ -1,8 +1,9 @@
 ---
-weight: 1
+weight: 98
 images:
-- /images/arts/arts-11.jpeg
+- /images/arts/field.jpeg
 tags:
+- work # homepage
 - archive # all posts
 - arts
 hideTitle: true

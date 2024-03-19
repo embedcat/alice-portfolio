@@ -1,7 +1,7 @@
 ---
-weight: 1
+weight: 78
 images:
-- /images/arts/arts-10.jpeg
+- /images/arts/mnt3.jpg
 tags:
 - archive # all posts
 - arts

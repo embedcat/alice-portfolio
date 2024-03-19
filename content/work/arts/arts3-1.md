@@ -1,7 +1,7 @@
 ---
-weight: 1
+weight: 80
 images:
-- /images/arts/arts-1.jpeg
+- /images/arts/mnt1.jpeg
 tags:
 - archive # all posts
 - arts
@@ -9,3 +9,4 @@ hideTitle: true
 hideExif: true
 hideDate: true
 ---
+

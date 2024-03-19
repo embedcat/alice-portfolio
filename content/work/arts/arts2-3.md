@@ -1,7 +1,7 @@
 ---
-weight: 1
+weight: 88
 images:
-- /images/arts/arts-15.jpg
+- /images/arts/roga.jpg
 tags:
 - archive # all posts
 - arts

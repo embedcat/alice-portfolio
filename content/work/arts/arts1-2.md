@@ -1,9 +1,8 @@
 ---
-weight: 1
+weight: 99
 images:
-- /images/arts/arts-4.jpeg
+- /images/arts/paper-birds.jpeg
 tags:
-- work # homepage
 - archive # all posts
 - arts
 hideTitle: true

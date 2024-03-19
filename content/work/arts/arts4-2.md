@@ -1,9 +1,8 @@
 ---
-weight: 1
+weight: 69
 images:
-- /images/arts/arts-3.jpeg
+- /images/arts/sheep.jpeg
 tags:
-- work # homepage
 - archive # all posts
 - arts
 hideTitle: true
