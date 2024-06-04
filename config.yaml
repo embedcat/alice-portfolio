@@ -1,4 +1,4 @@
-baseURL: http://alice.rockevents.ru # todo: change site url.
+baseURL: alice.rockevents.ru # todo: change site url.
 title: Анастасия Смолова
 defaultContentLanguage: 'ru'
 theme: eternity
