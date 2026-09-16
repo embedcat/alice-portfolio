@@ -82,6 +82,11 @@ jobs:
           printf '%s\n' "$VPS_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -p "$VPS_PORT" -H "$VPS_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          target=/www/alice/public
+          # --rsync-path создаёт каталог назначения на сервере перед синхронизацией:
+          # сам rsync создаёт только последний компонент пути и падает, если нет
+          # родительского (например, на свежем сервере).
           rsync -rlpt --checksum --delete --human-readable --stats \
+            --rsync-path="mkdir -p $target && rsync" \
             -e "ssh -i ~/.ssh/deploy_key -p $VPS_PORT" \
-            ./public/ "$VPS_USERNAME@$VPS_HOST:/www/alice/public/"
+            ./public/ "$VPS_USERNAME@$VPS_HOST:$target/"
