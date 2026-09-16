@@ -1,5 +1,5 @@
 baseURL: https://alice.rockevents.ru # todo: change site url.
-title: Анастасия Смолова
+title: Анастасия Прошкина
 defaultContentLanguage: 'ru'
 theme: eternity
 googleAnalytics: '' # todo: set your analytics id.
@@ -29,7 +29,8 @@ params:
       url: 'https://www.instagram.com/anastasiiasmolova1990'
     - icon: "far fa-file fa-lg"
       url: 'https://kaluga.hh.ru/resume/78689a34ff08ab96480039ed1f416446714777'
-  homepage: "/about" # homepage link, mostly same with menu.main[0]
+  homepage: "/index" # homepage link, mostly same with menu.main[0]
+  # homepage: "/" # homepage link, mostly same with menu.main[0]
   specialPages:
     - work
     - archive
@@ -54,18 +55,21 @@ permalinks:
 
 menu:
   main:
+    - name: главная
+      url: /index/
+      weight: 10
     - name: обо мне
       url: /about/
-      weight: 1
+      weight: 20
     - name: дизайн
       url: /tags/design/
-      weight: 2
+      weight: 30
     - name: живопись
       url: /tags/arts/
-      weight: 3
+      weight: 40
     - name: графика
       url: /tags/graphics/
-      weight: 4
+      weight: 50
     - name: галерея
       url: /tags/archive/
-      weight: 5
+      weight: 60

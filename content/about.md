@@ -9,7 +9,7 @@ hideDate: true
 ---
 
 
-# Анастасия Олеговна Смолова
+# Анастасия Олеговна Прошкина
 **22 мая 1990г. рождения**
 
 <img src="/avatar.jpg" alt="isolated" width="100" class="avatar"/>
