@@ -1,4 +1,5 @@
 ---
+alt: "Три пингвина на льдине — элементы детской игрушки"
 weight: 1
 images:
 - /images/design/pinguins.jpg

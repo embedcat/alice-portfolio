@@ -1,4 +1,4 @@
 ---
-title: tags
-subtitle: eternity
+title: Разделы
+description: Разделы портфолио Анастасии Прошкиной.
 ---

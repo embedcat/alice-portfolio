@@ -1,0 +1,15 @@
+{{/* Override темы eternity: страница 404 показывала логотип темы
+     (eternity.png) и английский текст «This is not where you want to be». */}}
+{{ partial "header.html" . }}
+{{ partial "navbar.html" . }}
+
+<section class="section notfound">
+	<p class="notfound-code">404</p>
+	<p>Такой страницы нет — возможно, ссылка устарела.</p>
+	<div class="notfound-links">
+		<a href="/index/">На главную</a>
+		<a href="/tags/archive/">В галерею</a>
+	</div>
+</section>
+
+{{ partial "footer.html" . }}

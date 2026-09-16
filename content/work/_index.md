@@ -1,28 +1,10 @@
 ---
 title: work
 url: work
+# Страница-список секции не нужна: все работы показываются через теги
+# (/tags/archive/ и разделы). Раньше здесь лежал демо-текст темы Eternity
+# («All images are taken from Unsplash»), который был виден на /work/.
+build:
+  list: never
+  render: never
 ---
-
-<div align="center">
-	<p>
-        Eternity is a minimalist Hugo theme designed for portfolio sites with a fresh feel.
-	</p>
-	<p>
-		This is demo site for <strong>Eternity</strong> theme. All images are taken from Unsplash.
-	</p>
-</div>
-
-#### Features
-
-- **Configurable** features.
-
-- **Multiple images** support.
-
-- Clean, fresh, **minimalist**.
-
-- Integrated **lazy load**.
-
-- Automatically creates **resized** thumbnails.
-
-- Shows **exif** if it exists.
-

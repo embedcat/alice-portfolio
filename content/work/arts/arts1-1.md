@@ -1,4 +1,5 @@
 ---
+alt: "Живопись: женская фигура на синем фоне"
 weight: 100
 images:
 - /images/arts/body1.jpeg

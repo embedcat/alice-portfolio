@@ -1,0 +1,302 @@
+.avatar {
+    width: 200px !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--white) !important;
+}
+
+/* Вводный текст раздела (content/tags/<term>/_index.md) */
+.section-intro {
+    max-width: 640px;
+    margin: 0 auto 1.5rem auto;
+    text-align: center;
+    color: var(--grey);
+}
+
+/* Заголовок раздела (partials/helpers/hidden-menu.html) */
+.section-title {
+    font-size: 1.7rem !important;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    margin: 0 0 1.2rem 0 !important;
+}
+
+/* ---- Полоса с волнами под навигацией (partials/banner.html) ---- */
+
+/* Высота полосы и зазоры вокруг неё задаются здесь, а не полями внутри
+   картинки — правятся в одном месте. Прозрачные поля отрезаны в
+   partials/banner.html, поэтому полоса — это ровно графика волн.
+   По умолчанию она тянется по ширине без искажений; ограничение высоты
+   включается через --banner-max-height и работает мягким сжатием
+   (object-fit: fill), а не обрезкой — иначе съедало верх волн. */
+:root {
+    --banner-max-height: 110px;
+    --banner-gap-top: 1.2rem;
+    --banner-gap-bottom: 0;
+}
+
+.site-banner {
+    width: 100%;
+    margin: var(--banner-gap-top) 0 0 0;
+    line-height: 0;
+}
+
+.site-banner img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: var(--banner-max-height);
+    object-fit: fill;
+}
+
+/* Зазор от полосы до контента: у Bulma .section сверху 3rem, из-за чего
+   под полосой получался двойной отступ. Сейчас 0 — контент идёт сразу
+   за волнами; менять через --banner-gap-bottom. */
+section.section {
+    padding-top: var(--banner-gap-bottom);
+}
+
+/* У галереи свои секции с id (#desktop / #mobile), и правило темы
+   `#mobile.section { padding: 3rem 0.8rem }` перебивает строчку выше. */
+#desktop.section,
+#mobile.section {
+    padding-top: var(--banner-gap-bottom);
+}
+
+/* ---- Главная (layouts/landing/single.html) ---- */
+
+.landing {
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+.landing-hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.landing-photo {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    flex: none;
+}
+
+.landing-intro {
+    flex: 1 1 380px;
+}
+
+.landing-name {
+    font-size: 2.4rem !important;
+    margin: 0 0 0.4rem 0 !important;
+    color: #eee !important;
+}
+
+.landing-subtitle {
+    color: var(--main-light);
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.1rem;
+}
+
+.landing-text p {
+    line-height: 1.6;
+    margin-bottom: 1.4rem;
+}
+
+.landing-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.landing-button {
+    display: inline-block;
+    padding: 0.7rem 1.7rem;
+    background: var(--main);
+    border: 1px solid var(--main);
+    color: #fff !important;
+    margin-bottom: 0;
+}
+
+.landing-button:hover {
+    background: var(--main-light);
+    border-color: var(--main-light);
+    color: var(--dark) !important;
+    border-bottom: 1px solid var(--main-light);
+}
+
+.landing-button-ghost {
+    background: transparent;
+    color: var(--main-light) !important;
+}
+
+.landing-button-ghost:hover {
+    background: var(--main-light);
+    color: var(--dark) !important;
+}
+
+.landing-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.4rem;
+    margin-top: 4rem;
+}
+
+.landing-card {
+    display: block;
+    background: var(--dark-light);
+    margin-bottom: 0;
+}
+
+.landing-card:hover {
+    border-bottom: none;
+}
+
+.landing-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: opacity 0.25s ease;
+}
+
+.landing-card:hover img {
+    opacity: 0.72;
+}
+
+.landing-card-title {
+    display: block;
+    padding: 0.7rem 0.9rem 0 0.9rem;
+    font-size: 1.25rem;
+    color: #eee;
+}
+
+.landing-card-text {
+    display: block;
+    padding: 0.15rem 0.9rem 0.9rem 0.9rem;
+    font-size: 0.95rem;
+    color: var(--grey);
+}
+
+.landing-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.5rem 2.5rem;
+    margin-top: 4rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid #2c2c2c;
+}
+
+.landing-about {
+    flex: 1 1 340px;
+    max-width: 560px;
+    color: var(--grey);
+    line-height: 1.55;
+}
+
+.landing-about a {
+    white-space: nowrap;
+}
+
+.landing-contacts {
+    list-style: none;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+@media (max-width: 768px) {
+    :root {
+        --banner-max-height: 48px;
+        --banner-gap-top: 1rem;
+        --banner-gap-bottom: 0.9rem;
+    }
+
+    /* У навбара снизу 30px паддинга от Bulma: на телефоне между меню
+       и полосой получалась дыра, тогда как под полосой всё слипалось. */
+    nav.navbar {
+        padding-bottom: 0.3rem;
+    }
+
+    .landing-hero {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1.5rem;
+    }
+
+    .landing-intro {
+        flex: 1 1 auto;
+    }
+
+    .landing-photo {
+        width: 150px;
+        height: 150px;
+    }
+
+    .landing-name {
+        font-size: 1.9rem !important;
+    }
+
+    .landing-actions {
+        justify-content: center;
+    }
+
+    .landing-cards {
+        grid-template-columns: 1fr;
+        margin-top: 2.5rem;
+        gap: 1rem;
+    }
+
+    .landing-footer {
+        margin-top: 2.5rem;
+    }
+}
+
+/* Шапка на телефонах: логотип 5rem и имя в две строки съедали
+   почти весь первый экран до контента. */
+@media (max-width: 768px) {
+    nav.navbar {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        padding-top: 0.6rem;
+    }
+
+    div.logo {
+        height: 3.2rem;
+    }
+
+    .welcome-title {
+        font-size: 1.5em;
+    }
+}
+
+/* 404 */
+.notfound {
+    text-align: center;
+    padding: 4rem 1rem;
+}
+
+.notfound-code {
+    font-size: 4rem !important;
+    margin: 0 0 0.5rem 0 !important;
+    color: var(--main) !important;
+}
+
+.notfound-links {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}

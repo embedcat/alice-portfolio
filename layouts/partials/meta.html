@@ -1,0 +1,62 @@
+{{/* Override темы eternity. Причины правок:
+     1. <title> отсюда убран — он уже выводится в partials/header.html
+        (в теме их было два на страницу).
+     2. description был один на весь сайт (params.subtitle) и дублировался
+        тремя тегами подряд; теперь берётся description страницы,
+        затем subtitle страницы, затем описание сайта.
+     3. og:site_name был пустым (params.sitename не задан), og:title брал
+        технический заголовок страницы, twitter:card был summary —
+        картинка показывалась миниатюрой вместо баннера.
+     4. og:image отдавался как png 800x418; теперь jpg 1200x630 + alt и размеры.
+     В остальном — копия themes/eternity/layouts/partials/meta.html. */}}
+{{ $desc := .Description }}
+{{ if not $desc }}{{ $desc = .Params.Subtitle }}{{ end }}
+{{ if not $desc }}{{ $desc = .Site.Params.description }}{{ end }}
+{{ if not $desc }}{{ $desc = .Site.Params.Subtitle }}{{ end }}
+
+{{ $ogTitle := .Site.Title }}
+{{ if and .Title (ne .Title .Site.Title) (not .IsHome) }}
+    {{ $ogTitle = printf "%s — %s" .Title .Site.Title }}
+{{ end }}
+
+<meta name="description" content="{{ $desc }}" />
+<meta itemprop="description" content="{{ $desc }}" />
+<meta property="og:description" content="{{ $desc }}" />
+<meta name="twitter:description" content="{{ $desc }}" />
+
+<meta property="og:title" content="{{ $ogTitle }}" />
+<meta name="twitter:title" content="{{ $ogTitle }}" />
+<meta itemprop="name" content="{{ $ogTitle }}" />
+<meta property="og:site_name" content="{{ .Site.Params.sitename | default .Site.Title }}" />
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
+
+<base href="{{ .RelPermalink }}">
+<link rel="canonical" href="{{ .Permalink }}" itemprop="url" />
+<meta name="url" content="{{ .Permalink }}" />
+<meta property="og:url" content="{{ .Permalink }}" />
+<meta name="twitter:url" content="{{ .Permalink }}" />
+<meta name="twitter:card" content="summary_large_image" />
+{{ with .Site.Params.Author }}
+    <meta name="author" content="{{ . }}" />
+    <meta name="twitter:creator" content="{{ . }}" />
+{{ end }}
+{{ $img := slice }}
+{{ $scratch := newScratch }}
+{{ if .Params.images }}
+    {{ partial "helpers/get" (dict "scratch" $scratch "row" .Params ) }}
+    {{ $img = $scratch.Get "img" }}
+{{ else if .Site.Params.image }}
+    {{ $row := dict "images" (slice .Site.Params.image) }}
+    {{ partial "helpers/get" (dict "scratch" $scratch "row" $row) }}
+    {{ $img = $scratch.Get "img" }}
+{{ end }}
+{{ with $img }}
+    {{ $i := .Fill "1200x630 center jpg q85" }}
+    <meta itemprop="image" content="{{ $i.Permalink }}" />
+    <meta property="og:image" content="{{ $i.Permalink }}" />
+    <meta property="og:image:width" content="{{ $i.Width }}" />
+    <meta property="og:image:height" content="{{ $i.Height }}" />
+    <meta property="og:image:alt" content="{{ $ogTitle }}" />
+    <meta name="twitter:image" content="{{ $i.Permalink }}" />
+{{ end }}
+<meta property="og:locale" content="{{ .Language.Lang }}">

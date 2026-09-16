@@ -1,4 +1,5 @@
 ---
+alt: "Живопись: горы с золотыми вершинами"
 weight: 78
 images:
 - /images/arts/mnt3.jpg

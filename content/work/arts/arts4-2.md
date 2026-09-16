@@ -1,4 +1,5 @@
 ---
+alt: "Живопись: спящая овца на тёмном фоне"
 weight: 69
 images:
 - /images/arts/sheep.jpeg

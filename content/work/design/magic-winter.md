@@ -1,4 +1,5 @@
 ---
+alt: "Афиша спектакля «Волшебная зима» по сказке Туве Янссон"
 weight: 1
 images:
 - /images/design/magic-winter.png

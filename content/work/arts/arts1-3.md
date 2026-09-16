@@ -1,4 +1,5 @@
 ---
+alt: "Живопись: равнина под широким синим небом"
 weight: 98
 images:
 - /images/arts/field.jpeg

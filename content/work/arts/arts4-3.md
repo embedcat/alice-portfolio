@@ -1,4 +1,5 @@
 ---
+alt: "Живопись: розово-лиловые рыбы-окна на чёрном фоне"
 weight: 68
 images:
 - /images/arts/fish2.png

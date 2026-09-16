@@ -1,5 +1,8 @@
-{{/* Override темы eternity для Hugo >= 0.155: Image.Exif объявлен deprecated,
-     заменён на Image.Meta.Exif. Остальное — копия themes/eternity/layouts/partials/slides/slide.html. */}}
+{{/* Override темы eternity:
+     1. Hugo >= 0.155: Image.Exif объявлен deprecated, заменён на Image.Meta.Exif.
+     2. Добавлен alt из front matter работы — в теме картинки шли без alt.
+     3. Крупный просмотр: 3000px PNG/JPEG -> 2000px WebP (вес сборки).
+     Остальное — копия themes/eternity/layouts/partials/slides/slide.html. */}}
 {{ $imgs := slice }}
 {{ range $i, $image := .ctx.Params.images }}
 	{{ $scratch := newScratch }}
@@ -26,22 +29,22 @@
 				<div {{ if .ctx.Params.multipleColumn }} class="columns center" {{ end }}>
 					{{ range $i, $img := $imgs }}
 						{{ if not $.ctx.Site.Params.DisableAlwaysResize }}
-							{{ $resizer := "3000x r0" }}
+							{{ $resizer := "2000x webp q85 r0" }}
 							{{ with $img.Meta.Exif }}
 								{{ if eq .Tags.Orientation 6 }}
-									{{ $resizer = "3000x r270" }}
+									{{ $resizer = "2000x webp q85 r270" }}
 								{{ end }}
 								{{ if eq .Tags.Orientation 3 }}
-									{{ $resizer = "3000x r180" }}
+									{{ $resizer = "2000x webp q85 r180" }}
 								{{ end }}
 								{{ if eq .Tags.Orientation 8 }}
-									{{ $resizer = "3000x r90" }}
+									{{ $resizer = "2000x webp q85 r90" }}
 								{{ end }}
 							{{ end }}
 							{{ $img = $img.Resize $resizer }}
 						{{ end  }}
 						<div {{ if $.ctx.Params.multipleColumn }} class="column" {{ end }}>
-							<img src="{{ $img.RelPermalink }}" loading="lazy" width="{{ $img.Width }}" height="{{ $img.Height }}" />
+							<img src="{{ $img.RelPermalink }}" alt="{{ $.ctx.Params.alt }}" loading="lazy" width="{{ $img.Width }}" height="{{ $img.Height }}" />
 						</div>
 					{{ end }}
 				</div>

@@ -1,4 +1,5 @@
 ---
+alt: "Живопись: белые птицы над синими горами"
 weight: 99
 images:
 - /images/arts/paper-birds.jpeg

@@ -1,0 +1,76 @@
+{{/* Override темы eternity. Причины правок:
+     1. <html> шёл без lang — поисковики и скринридеры не знали язык страницы.
+     2. <title> выводился и здесь, и в partials/meta.html (два title в head),
+        причём из технических имён страниц: «index», «about», «Design».
+     3. favicon брался из favicon.ico темы; теперь генерируется из логотипа.
+     4. Добавлен JSON-LD (schema.org/Person) на главной и «обо мне».
+     5. Стили проекта подключаются отдельно (assets/css/site.css) с fingerprint.
+     6. Убран нерабочий скрипт FontAwesome (см. комментарий ниже).
+     В остальном — копия themes/eternity/layouts/partials/header.html. */}}
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Locale | default .Site.Language.Lang }}">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	{{ $title := .Site.Title }}
+	{{ if and .Title (ne .Title .Site.Title) (not .IsHome) }}
+		{{ $title = printf "%s — %s" .Title .Site.Title }}
+	{{ else if .Site.Params.Subtitle }}
+		{{ $title = printf "%s — %s" .Site.Title (lower .Site.Params.Subtitle) }}
+	{{ end }}
+	<title>{{ $title }}</title>
+
+	{{ partial "meta" . }}
+
+	{{ with resources.Get "images/brand/logo.png" }}
+		{{ $icon32 := .Resize "32x32 png" }}
+		{{ $icon192 := .Resize "192x192 png" }}
+		{{ $apple := .Resize "180x180 png" }}
+		<link rel="icon" type="image/png" sizes="32x32" href="{{ $icon32.RelPermalink }}" />
+		<link rel="icon" type="image/png" sizes="192x192" href="{{ $icon192.RelPermalink }}" />
+		<link rel="apple-touch-icon" href="{{ $apple.RelPermalink }}" />
+	{{ else }}
+		<link rel="icon" type="image/png" href={{ "favicon.ico" | absURL }} />
+	{{ end }}
+
+	<link rel="stylesheet" href={{ "css/main.css" | absURL }}>
+	{{/* Стили проекта — отдельным файлом с хэшом в имени: css темы подключены
+	     через @import внутри main.css, и браузеры продолжали отдавать их старую
+	     версию из кэша после каждой правки. */}}
+	{{ with resources.Get "css/site.css" }}
+		{{ $site := . | minify | fingerprint }}
+		<link rel="stylesheet" href="{{ $site.RelPermalink }}" integrity="{{ $site.Data.Integrity }}">
+	{{ end }}
+	<script src={{ "js/main.js" | absURL }}></script>
+	{{ partial "style.html" . }}
+	{{/* Скрипт kit FontAwesome из темы убран: kit принадлежит автору темы
+	     и отдаёт 403 на этом домене — иконки не рисовались нигде, а запрос
+	     висел на каждой странице. Иконок в разметке проекта больше нет. */}}
+	{{ partial "fonts.html" . }}
+	{{ partial "helpers/plausible" . }}
+
+	{{ if or (eq .RelPermalink "/index/") (eq .RelPermalink "/about/") }}
+		{{ $sameAs := slice }}
+		{{ range .Site.Params.socials }}
+			{{ if not (strings.HasPrefix .url "mailto:") }}
+				{{ $sameAs = $sameAs | append .url }}
+			{{ end }}
+		{{ end }}
+		{{ $person := dict
+			"@context" "https://schema.org"
+			"@type" "Person"
+			"name" .Site.Params.author
+			"jobTitle" .Site.Params.subtitle
+			"description" .Site.Params.description
+			"url" (absURL "/index/")
+			"image" (absURL "avatar.jpg")
+			"sameAs" $sameAs
+		}}
+		<script type="application/ld+json">{{ $person | jsonify }}</script>
+	{{ end }}
+</head>
+
+<body>

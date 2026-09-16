@@ -1,12 +1,4 @@
-.avatar {
-    width: 200px !important;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: var(--white) !important;
-}
+/* Стили проекта вынесены в assets/css/site.css — они подключаются
+   отдельным <link> с fingerprint (см. layouts/partials/header.html),
+   чтобы браузеры не отдавали старую версию из кэша после правок.
+   Этот файл существует только затем, чтобы перекрыть @import темы. */

@@ -1,4 +1,5 @@
 ---
+alt: "Живопись: белые и чёрные дома у воды на фоне гор"
 weight: 60
 images:
 - /images/arts/town2.jpg

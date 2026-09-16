@@ -1,4 +1,5 @@
 ---
+alt: "Графика: две рыбы"
 weight: 2
 images:
 - /images/graphics/fishes.jpg

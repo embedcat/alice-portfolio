@@ -1,0 +1,68 @@
+{{/* Лендинг главной страницы (content/home.md, type: landing).
+     Раньше главная рендерилась общим шаблоном темы и показывала только имя,
+     дату рождения и фото 200px — ни рода занятий, ни работ, ни контактов. */}}
+{{ partial "header.html" . }}
+{{ partial "navbar.html" . }}
+
+{{ $email := "" }}
+{{ range .Site.Params.socials }}
+	{{ if and (not $email) (strings.HasPrefix .url "mailto:") }}{{ $email = .url }}{{ end }}
+{{ end }}
+
+<section class="section landing">
+	<div class="landing-hero">
+		<img class="landing-photo" src="{{ "avatar.jpg" | absURL }}" width="200" height="200"
+			alt="{{ .Site.Params.author }}" />
+		<div class="landing-intro">
+			<h1 class="landing-name">{{ .Site.Params.author }}</h1>
+			<p class="landing-subtitle">{{ .Site.Params.subtitle }}</p>
+			<div class="landing-text">{{ .Content }}</div>
+			<div class="landing-actions">
+				<a class="landing-button" href="/tags/archive/">Смотреть работы</a>
+				{{ with $email }}<a class="landing-button landing-button-ghost" href="{{ . }}">Написать</a>{{ end }}
+			</div>
+		</div>
+	</div>
+
+	{{ $sections := slice }}
+	{{ range .Site.Taxonomies.tags.ByCount }}
+		{{ $page := .Page }}
+		{{ with $page.Params.cover }}
+			{{ $sections = $sections | append $page }}
+		{{ end }}
+	{{ end }}
+	{{ with sort $sections "Weight" }}
+		<div class="landing-cards">
+			{{ range . }}
+				{{ $img := resources.Get .Params.cover }}
+				<a class="landing-card" href="{{ .RelPermalink }}">
+					{{ with $img }}
+						{{ $c := .Fill "700x520 center webp q80" }}
+						<img src="{{ $c.RelPermalink }}" alt="" loading="lazy"
+							width="{{ $c.Width }}" height="{{ $c.Height }}" />
+					{{ end }}
+					<span class="landing-card-title">{{ .Title }}</span>
+					{{ with .Params.cardtext }}<span class="landing-card-text">{{ . }}</span>{{ end }}
+				</a>
+			{{ end }}
+		</div>
+	{{ end }}
+
+	<div class="landing-footer">
+		<p class="landing-about">
+			{{ with .Params.aboutteaser }}{{ . }}{{ end }}
+			<a href="/about/">Подробное резюме →</a>
+		</p>
+		<ul class="landing-contacts">
+			{{ range .Site.Params.socials }}
+				<li>
+					<a href="{{ .url }}"{{ if not (strings.HasPrefix .url "mailto:") }} target="_blank" rel="noopener"{{ end }}>
+						{{ if strings.HasPrefix .url "mailto:" }}{{ strings.TrimPrefix "mailto:" .url }}{{ else }}{{ .name }}{{ end }}
+					</a>
+				</li>
+			{{ end }}
+		</ul>
+	</div>
+</section>
+
+{{ partial "footer.html" . }}

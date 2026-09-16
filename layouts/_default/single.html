@@ -1,0 +1,24 @@
+{{/* Override темы eternity: тема прогоняла каждую одиночную страницу через
+     slides/slide.html и выводила картинку из front matter прямо в тело.
+     Для работ это и нужно, а для текстовых страниц («обо мне») означало,
+     что декоративная полоса дублировала ту, что теперь выводится в шапке.
+     Работы рендерятся как в теме, текстовые страницы — только контентом. */}}
+{{ partial "header.html" . }}
+
+{{ partial "navbar.html" . }}
+
+<section class="section">
+	{{ if eq .Section "work" }}
+		{{ partial "slides/slide.html" (dict "disableFullheight" true "ctx" .) }}
+	{{ else }}
+		<div class="center">
+			<div class="slide-info">
+				<div class="content">
+					{{ .Content }}
+				</div>
+			</div>
+		</div>
+	{{ end }}
+</section>
+
+{{ partial "footer.html" . }}

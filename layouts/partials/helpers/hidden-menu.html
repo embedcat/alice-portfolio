@@ -1,0 +1,10 @@
+{{/* Override темы eternity. Было: <p>#{{ .Title }}</p> — на страницах
+     разделов печатались технические английские имена тегов (#Design,
+     #Arts, #Graphics, #Archive) при полностью русском меню, и ни на одной
+     странице раздела не было h1.
+     Стало: h1 с названием раздела из content/tags/<term>/_index.md. */}}
+<div class="center hidden-menu">
+    {{ if eq .Kind "term" }}
+        <h1 class="section-title">{{ .Title }}</h1>
+    {{ end }}
+</div>

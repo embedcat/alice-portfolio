@@ -4,7 +4,14 @@
     {
       "name": "hugo",
       "runtimeExecutable": "hugo",
-      "runtimeArgs": ["server", "-D", "--port", "1313"],
+      "runtimeArgs": [
+        "server",
+        "--port=1313",
+        "--baseURL=http://localhost:1313/",
+        "--appendPort=false",
+        "--disableFastRender",
+        "--renderToMemory"
+      ],
       "port": 1313
     }
   ]

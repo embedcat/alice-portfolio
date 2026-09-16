@@ -1,9 +1,15 @@
-{{/* Override темы eternity для Hugo >= 0.155: Image.Exif -> Image.Meta.Exif.
+{{/* Override темы eternity:
+     1. Hugo >= 0.155: Image.Exif -> Image.Meta.Exif.
+     2. Добавлен alt (front matter работы) — в теме все превью галереи
+        выводились без alt: поисковики не видели картинки, скринридеры молчали.
+     3. Превью отдаются в WebP вместо PNG/JPEG — сборка весила 113 МБ,
+        из которых почти всё — превью работ.
+     4. Вводный текст раздела получил класс .section-intro (центрирование).
      В остальном — копия соответствующего файла из themes/eternity/. */}}
 {{ with .ctx.Content }}
 <div class="center">
     <div class="slide-info">
-        <div class="content">
+        <div class="content section-intro">
             {{ . }}
         </div>
     </div>
@@ -26,16 +32,16 @@
                     {{ $scratch := newScratch }}
                     {{ partial "helpers/get" (dict "scratch" $scratch "row" (index $row "post").Params) }}
                     {{ $img := $scratch.Get "img" }}
-                    {{ $resizer := "1000x r0" }}
+                    {{ $resizer := "1000x webp q82 r0" }}
                     {{ with $img.Meta.Exif }}
                         {{ if eq .Tags.Orientation 6 }}
-                            {{ $resizer = "1000x r270" }}
+                            {{ $resizer = "1000x webp q82 r270" }}
                         {{ end }}
                         {{ if eq .Tags.Orientation 3 }}
-                            {{ $resizer = "1000x r180" }}
+                            {{ $resizer = "1000x webp q82 r180" }}
                         {{ end }}
                         {{ if eq .Tags.Orientation 8 }}
-                            {{ $resizer = "1000x r90" }}
+                            {{ $resizer = "1000x webp q82 r90" }}
                         {{ end }}
                     {{ end }}
                     {{ $img = $img.Resize $resizer }}
@@ -43,6 +49,7 @@
                         <div class="image-box {{ if eq ($.scratch.Get "columnsCount") 1 }} alittle {{ end }}">
                             <img
                             src="{{ $img.RelPermalink }}"
+                            alt="{{ (index $row "post").Params.alt }}"
                             loading="lazy"
                             width="{{ $img.Width }}"
                             height="{{ $img.Height }}"

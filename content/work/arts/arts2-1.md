@@ -1,4 +1,5 @@
 ---
+alt: "Живопись: разноцветные дома с окнами"
 weight: 90
 images:
 - /images/arts/town1.jpg

@@ -1,5 +1,6 @@
 ---
+title: Анастасия Прошкина
 desc:
-- Eternity is a minimalist Hugo theme
-- designed for portfolio sites with a fresh feel.
+- Графический дизайнер и художник-сценограф
+- Дизайн детских игрушек, живопись, графика
 ---

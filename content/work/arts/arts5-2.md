@@ -1,4 +1,5 @@
 ---
+alt: "Живопись: птицы на проводе"
 weight: 59
 images:
 - /images/arts/birds.jpeg

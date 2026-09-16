@@ -37,6 +37,7 @@ description: >
 
 ```yaml
 ---
+alt: "Деревянный пазл-алфавит: буквы-вкладыши"  # ОБЯЗАТЕЛЬНО, в кавычках
 weight: 1                    # Порядок сортировки (меньше = выше)
 images:
 - /images/design/abc.png     # Путь к изображению в assets/images/
@@ -49,6 +50,9 @@ hideDate: true               # Опционально (прячет дату)
 ---
 ```
 
+`alt` — описание картинки по-русски; выводится в превью галереи и в крупном
+просмотре. Кавычки обязательны: в описаниях есть двоеточия, без них YAML падает.
+
 ### Статистика контента
 - **design/**: 14 работ (пазлы, алфавит, машинки, календари, Лондон, пингвины, волшебная зима)
 - **arts/**: 14 работ (живопись, серии arts1–arts5)
@@ -57,10 +61,12 @@ hideDate: true               # Опционально (прячет дату)
 - Пути в `images:` указываются от корня `assets/` без префикса `assets`: файл `assets/images/design/abc.png` → `/images/design/abc.png`
 
 ### Страницы
-- `home.md` — главная (короткое bio + аватар), публичный URL `/index/` через `url: index`
+- `home.md` — главная-лендинг (`type: landing` → `layouts/landing/single.html`): кто она и чем занимается, кнопки «Смотреть работы» / «Написать», карточки трёх разделов, контакты. Публичный URL `/index/` через `url: index`
 - `about.md` — полное CV/резюме с историей карьеры
+- `tags/{design,arts,graphics,archive}/_index.md` — русские названия разделов (`title` → `h1` и `<title>`), `description`, вводный абзац, а также `cover`/`cardtext`/`weight` для карточек на главной
 - `_index.md` — welcome page (bypassed через `bypassWelcomePage: true`)
-- `404.md` — страница ошибки
+- `404.md` — страница ошибки (`type: nil` → `layouts/nil/single.html`, текст на русском)
+- `work/_index.md` — `build.render: never`, страница `/work/` не публикуется
 
 ## Добавление новой работы
 
@@ -69,6 +75,7 @@ hideDate: true               # Опционально (прячет дату)
 2. Создать `content/work/{category}/{slug}.md`:
    ```yaml
    ---
+   alt: "Что изображено на картинке"
    weight: 10
    images:
    - /images/{category}/{filename}.png
@@ -90,15 +97,24 @@ hideDate: true               # Опционально (прячет дату)
 
 ## Оверрайды шаблонов темы (`layouts/`)
 
-Тема Eternity больше не развивается (форк `embedcat/eternity-hugo` совпадает с апстримом `boratanrikulu/eternity@main`, последний коммит — пометка «not maintained»), поэтому совместимость с новыми Hugo поддерживается копиями её шаблонов в `layouts/`:
+Тема Eternity больше не развивается (форк `embedcat/eternity-hugo` совпадает с апстримом `boratanrikulu/eternity@main`, последний коммит — пометка «not maintained»), поэтому всё, что нужно поправить, живёт копиями её шаблонов в `layouts/`:
 
 | Файл | Правка | Причина |
 |------|--------|---------|
-| `partials/footer.html` | убрана строка `_internal/google_analytics_async.html` | внутренний шаблон удалён в Hugo ≥ 0.146 — иначе `error building site` |
-| `partials/slides/columns.html` | имя тега берётся из `.Data.Term`, а не `.Params.Title` | у term-страниц больше нет `.Params.Title` → `index ... value is nil` |
-| `partials/slides/slide.html` | `Image.Exif` → `Image.Meta.Exif` | `Image.Exif` deprecated с Hugo 0.155 |
-| `partials/slides/meta.html` | то же | то же |
-| `partials/slides/slider.html` | то же | то же |
+| `partials/footer.html` | убрана строка `_internal/google_analytics_async.html` | внутренний шаблон удалён в Hugo ≥ 0.146 |
+| `partials/slides/columns.html` | имя тега из `.Data.Term` | у term-страниц больше нет `.Params.Title` |
+| `partials/slides/slide.html` | `Image.Meta.Exif`, `alt`, 2000px WebP | deprecated API; пустые alt; вес сборки |
+| `partials/slides/meta.html` | `Image.Meta.Exif` | то же |
+| `partials/slides/slider.html` | `Image.Meta.Exif`, `alt`, превью в WebP | то же |
+| `partials/header.html` | `<html lang>`, один `<title>`, favicon из логотипа, JSON-LD Person, `assets/css/site.css`, убран скрипт FontAwesome | язык страницы, дублирующийся title, иконка темы, kit отдавал 403 |
+| `partials/meta.html` | description по страницам, `og:site_name`, `summary_large_image`, og:image 1200x630 | одно описание на весь сайт, пустой site_name |
+| `partials/navbar.html` | alt логотипа, логотип в WebP, убран блок иконок соцсетей | доступность, вес, нерабочий kit FontAwesome |
+| `partials/helpers/hidden-menu.html` | `<h1>` с русским названием раздела | было `<p>#Design</p>` при русском меню |
+| `partials/banner.html` | полоса с волнами на всех страницах | картинка была привязана к двум страницам |
+| `_default/single.html` | работы — через `slides/slide.html`, текстовые страницы — только контент | картинка из front matter дублировала полосу в шапке |
+| `landing/single.html` | лендинг главной | раньше главная = имя и фото |
+| `nil/single.html` | 404 на русском | была страница с логотипом Eternity |
+| `robots.txt` | robots со ссылкой на sitemap | `robots.txt` отдавал 404 |
 
 Правило: тему (`themes/eternity/`) не трогаем; при обновлении Hugo сверяем оверрайды с оригиналами.
 
@@ -116,13 +132,16 @@ hideDate: true               # Опционально (прячет дату)
 }
 ```
 
-### Кастомные стили (`static/css/custom.css`)
-- `.avatar` — размер аватарки (200px)
-- `h1-h6` — переопределены на `var(--white)`
+### Кастомные стили (`assets/css/site.css`)
+- Подключается отдельным `<link>` с fingerprint из `partials/header.html`
+- Полоса с волнами в шапке: `--banner-max-height`, `--banner-gap-top`, `--banner-gap-bottom` — предельная высота и зазоры правятся этими переменными, на ≤768px они переопределяются. Прозрачные поля исходника отрезаны в `partials/banner.html`, ограничение высоты работает сжатием, а не обрезкой
+- `.landing-*` — блоки главной, `.section-title` — заголовки разделов, `.notfound-*` — 404
+- Мобильные правки шапки темы (логотип и имя занимали весь первый экран)
+- `static/css/custom.css` оставлен пустым: тема импортирует его внутри `main.css`, и браузеры отдавали закэшированную версию после каждой правки
 
 ### Правила кастомизации
 - **НЕ трогать** `themes/eternity/static/css/` — это submodule.
-- Добавлять стили через `static/css/custom.css`.
+- Добавлять стили через `assets/css/site.css`.
 - Менять палитру через `static/css/colors.css`.
 - Тема использует Bulma, можно использовать Bulma-классы в контенте.
 
@@ -179,12 +198,14 @@ rsync -rlpt --checksum --delete по SSH → VPS:/www/alice/public/
 # Клонирование (с submodule)
 git clone --recurse-submodules https://github.com/embedcat/alice-portfolio.git
 
-# Запуск dev-сервера
-hugo server -D
+# Запуск dev-сервера (baseURL обязателен: иначе CSS и JS тянутся с продакшена)
+hugo server --port=1313 --baseURL=http://localhost:1313/ --appendPort=false
 
 # Сборка для продакшена
 hugo --minify
 ```
+
+Тот же запуск описан в `.claude/launch.json` — его использует предпросмотр в Claude Code.
 
 Локально проверено на Hugo `0.166.0+extended`: чистая сборка без warning'ов — 54 страницы, 105 изображений, ~8 с с нуля и ~150 мс инкрементально.
 Версии старше 0.155 **не подойдут**: оверрайды используют `Image.Meta`.
@@ -203,10 +224,10 @@ hugo --minify
 ## Известные проблемы
 *Актуально на 2026-09-16, Hugo 0.166.0.*
 
-1. `static/CNAME` содержит `eternity.bora.sh` — мусор от оригинальной темы (на деплой по SCP не влияет)
-2. `content/work/_index.md` — дефолтное описание Eternity, не кастомизировано
-3. `content/_index.md` — дефолтный `desc` темы («Eternity is a minimalist Hugo theme…»)
-4. Неиспользуемые файлы в `assets/images/`: `graphics/zebru.jpg`, `about.png`, `gtd.png`
-5. Google Analytics и Plausible не настроены
-6. Тема заморожена апстримом — несовместимости с будущими Hugo придётся чинить новыми оверрайдами в `layouts/`
+1. Тема заморожена апстримом — несовместимости с будущими Hugo придётся чинить новыми оверрайдами в `layouts/` (сейчас их двенадцать)
+2. У работ нет названий, года и техники: `hideTitle: true` у всех 34 файлов, в front matter только `alt`
+3. `alt` написан по изображению, а не со слов автора — техника живописи и графики нигде не зафиксирована
+4. Неиспользуемые файлы в `assets/images/`: `graphics/zebru.jpg`, `about.png`, `gtd.png`, `banner.png`
+5. Аналитика не настроена (ни Google Analytics, ни Plausible)
+6. Дизайн и искусство лежат в общей галерее вперемешку; кейсов по дизайну (задача → решение → результат) нет
 7. `content/home.md` нельзя переименовывать в `index.md`: в Hugo ≥ 0.123 это делает главную leaf bundle и обрушает весь сайт до 7 страниц
