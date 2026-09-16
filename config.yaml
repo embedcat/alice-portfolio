@@ -29,7 +29,8 @@ params:
       url: 'https://www.instagram.com/anastasiiasmolova1990'
     - icon: "far fa-file fa-lg"
       url: 'https://kaluga.hh.ru/resume/78689a34ff08ab96480039ed1f416446714777'
-  homepage: "/index" # homepage link, mostly same with menu.main[0]
+  # relref на файл content/home.md; публичный URL страницы — /index/ (url: index в front matter)
+  homepage: "/home"
   # homepage: "/" # homepage link, mostly same with menu.main[0]
   specialPages:
     - work

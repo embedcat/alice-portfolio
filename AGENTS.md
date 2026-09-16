@@ -5,20 +5,34 @@
 Персональный сайт-портфолио графического дизайнера и художника-сценографа **Анастасии Прошкиной**.
 Статический сайт на **Hugo** с темой **Eternity** (форк `embedcat/eternity-hugo`), развёрнутый на VPS через GitHub Actions.
 
-- **Имя**: `Анастасия Прошкина` (`title` в `config.yaml`), на страницах `index.md` и `about.md` — `Анастасия Олеговна Прошкина`. Старая фамилия «Смолова» остаётся только в ссылке на Instagram-аккаунт (`anastasiiasmolova1990`) — это реальный хэндл, менять его нельзя.
+- **Имя**: `Анастасия Прошкина` (`title` в `config.yaml`), на страницах `home.md` и `about.md` — `Анастасия Олеговна Прошкина`. Старая фамилия «Смолова» остаётся только в ссылке на Instagram-аккаунт (`anastasiiasmolova1990`) — это реальный хэндл, менять его нельзя.
 - **Production URL**: `https://alice.rockevents.ru`
 - **Repo**: `https://github.com/embedcat/alice-portfolio.git`
 - **Branch**: `master` (единственная ветка)
-- **Hugo version**: `0.120.4` (extended)
+- **Hugo version**: `0.166.0` (extended) — минимальная: оверрайды в `layouts/` используют `Image.Meta` (Hugo ≥ 0.155), на 0.120 сборка упадёт.
 
 ## Critical Rules
 
 ### Тема — это git submodule
 - Тема `eternity` подключена как submodule из `themes/eternity` → `https://github.com/embedcat/eternity-hugo.git`.
+- Форк совпадает коммит-в-коммит с апстримом `boratanrikulu/eternity@main`, а апстрим **заморожен** (последний коммит — «doc: add not-maintained notice»). Обновлять тему неоткуда; всё, что ломается в новых версиях Hugo, чиним оверрайдами в `layouts/`.
 - **НИКОГДА** не редактируйте файлы внутри `themes/eternity/` напрямую в этом репозитории. Все кастомизации должны делаться через:
   - Переопределение layouts: создать файл в `layouts/` корневого проекта (Hugo merge strategy).
   - Кастомный CSS: `static/css/colors.css` и `static/css/custom.css`.
   - Конфигурацию: `config.yaml`.
+
+### Оверрайды темы (`layouts/`)
+Тема не поддерживается и не знает про новые версии Hugo, поэтому в проекте лежат копии её шаблонов с точечными правками. Каждый файл — копия одноимённого из `themes/eternity/layouts/` плюс комментарий-шапка с причиной:
+
+| Файл | Зачем |
+|------|-------|
+| `layouts/partials/footer.html` | В Hugo ≥ 0.146 удалён внутренний шаблон `_internal/google_analytics_async.html` — строка убрана (иначе сборка падает) |
+| `layouts/partials/slides/columns.html` | У term-страниц таксономии больше нет `.Params.Title`; имя тега берётся из `.Data.Term` |
+| `layouts/partials/slides/slide.html` | `Image.Exif` → `Image.Meta.Exif` (deprecated с 0.155) |
+| `layouts/partials/slides/meta.html` | то же |
+| `layouts/partials/slides/slider.html` | то же |
+
+При обновлении Hugo сверяйте эти файлы с оригиналами в `themes/eternity/layouts/` — правки в теме иначе потеряются.
 
 ### Язык контента
 - Весь контент на **русском языке** (`defaultContentLanguage: 'ru'`).
@@ -29,9 +43,11 @@
 - Каждая работа обязана иметь: `weight`, `images`, `tags`.
 - Тег `archive` добавляется ко всем работам (общая галерея).
 
-### Главная страница и меню — коммитить вместе
-- Главная — это `content/index.md` (`url: index`), на неё указывают `params.homepage: "/index"` и пункт меню `главная`.
-- Менять `config.yaml` (homepage/menu) и `content/index.md` нужно **одним коммитом**: если попадёт только config, продакшен-сборка отдаст 404 на `/index/`.
+### Главная страница — `content/home.md`, не `index.md`
+- Файл главной — `content/home.md` с `url: index`, публичный адрес остаётся `/index/`.
+- **Нельзя** класть его как `content/index.md`: начиная с Hugo 0.123 файл `index.*` в корне `content/` превращает домашнюю страницу в leaf bundle, и весь остальной контент (все 34 работы и `about`) перестаёт считаться страницами — сайт схлопывается до 7 страниц.
+- `params.homepage: "/home"` — это **content-путь** для `relref` (тема резолвит его в `layouts/index.html` и `partials/navbar.html`), а не URL. Переименуете файл — поправьте и этот параметр, иначе сборка упадёт с `REF_NOT_FOUND`.
+- Меняете `config.yaml` (homepage/menu) и `content/home.md` — коммитьте одним коммитом, иначе продакшен отдаст 404 на `/index/`.
 
 ### Файловые соглашения
 - Изображения работ хранятся в `assets/images/{category}/` (Hugo Pipes, ресайз).
@@ -41,7 +57,13 @@
 ### Деплой
 - CI/CD: GitHub Actions (`.github/workflows/hugo.yml`).
 - Триггер: push в `master`.
-- Сборка `hugo --minify` → SCP на VPS: `appleboy/scp-action` копирует каталог `./public` **внутрь** `target`, то есть файлы попадают в `/www/alice/public/` (веб-корень на VPS должен указывать именно туда).
+- `HUGO_VERSION` в workflow: `0.166.0` (extended, ставится из `.deb` релиза).
+- Деплой в два шага (SCP сам по себе ничего не удаляет, поэтому прямая заливка копила бы мусор):
+  1. `appleboy/scp-action@v1` заливает `./public` в `/www/alice/staging/` с `rm: true` (staging чистится перед копированием) → `/www/alice/staging/public`;
+  2. `appleboy/ssh-action@v1` подменяет каталог: `public` → `public.old`, `staging/public` → `public`, затем удаляет `public.old` и `staging`. При неудаче откатывается на прошлую версию, прод не остаётся пустым.
+- **Веб-корень на VPS — `/www/alice/public/`** (путь не меняется).
+- Пиково на сервере нужно место под три копии сборки (~190 МБ при текущих 62 МБ).
+- Dart Sass в CI не ставится: в проекте и теме нет ни одного `.scss` — шаг убран.
 - **Секреты**: `VPS_HOST`, `VPS_USERNAME`, `VPS_PORT`, `VPS_KEY`.
 
 ## Coding Conventions
@@ -68,7 +90,7 @@ alice-portfolio/
 ├── config.yaml              # Hugo конфигурация (params, menu, theme settings)
 ├── content/
 │   ├── _index.md            # Welcome page (bypassed)
-│   ├── index.md             # Главная (короткое bio + аватар), url: index
+│   ├── home.md              # Главная (короткое bio + аватар), url: index
 │   ├── about.md             # Полное резюме/CV
 │   ├── 404.md
 │   ├── tags/_index.md
@@ -87,6 +109,10 @@ alice-portfolio/
 │   ├── logo1.png            # Логотип сайта
 │   ├── avatar.jpg           # Фото для страницы "обо мне"
 │   └── CNAME                # ⚠ Содержит eternity.bora.sh (НЕ актуально)
+├── layouts/                 # Оверрайды шаблонов темы (см. «Оверрайды темы»)
+│   └── partials/
+│       ├── footer.html
+│       └── slides/{columns,slide,meta,slider}.html
 ├── themes/eternity/         # Git submodule (НЕ редактировать!)
 └── .github/workflows/
     └── hugo.yml             # CI/CD: сборка Hugo → SCP на VPS
@@ -105,13 +131,13 @@ alice-portfolio/
 
 ## Known Issues & TODOs
 
-*Проверено аудитом 2026-09-16 (`hugo --minify` собирается без ошибок: 53 страницы, 113 изображений).*
+*Проверено 2026-09-16 на Hugo 0.166.0: `hugo --minify` собирается без единого warning'а (54 страницы, 105 изображений); набор выходных страниц совпадает с тем, что давала 0.120.4.*
 
-- **Warning сборки**: `Content directory "content" have both index.* and _index.* files, pick one.` — в `content/` лежат и `index.md` (главная), и `_index.md` (welcome-страница, обходится через `bypassWelcomePage`). Сборка проходит, но Hugo предупреждает при каждом запуске.
 - `static/CNAME` содержит `eternity.bora.sh` — осталось от темы, не актуально для продакшена (деплой идёт по SCP, CNAME не используется).
 - `content/work/_index.md` содержит дефолтное описание темы Eternity (не кастомизировано).
 - `content/_index.md` содержит дефолтный `desc` темы («Eternity is a minimalist Hugo theme…»); страница скрыта редиректом `bypassWelcomePage`, но текст остаётся в сборке.
 - Неиспользуемые изображения в `assets/images/`: `graphics/zebru.jpg` (нет .md), `about.png`, `gtd.png` — нигде не упоминаются.
-- Google Analytics не настроен (`googleAnalytics: ''`); Hugo предупреждает, что `_internal/google_analytics_async.html` устарел.
+- Google Analytics не настроен (`googleAnalytics: ''`).
 - Plausible analytics не настроен (`plausible: ''`).
-- Не закоммичено на момент аудита: `content/index.md`, изменения `config.yaml` (title → Прошкина, homepage → `/index`, пункт меню «главная»), а также `AGENTS.md` и `.claude/skills/`.
+- Тема заморожена апстримом: любые несовместимости с будущими версиями Hugo придётся чинить оверрайдами в `layouts/` (сейчас их пять).
+- При обновлении Hugo меняется схема имён сгенерированных картинок (`*_hu<hash>.jpg`) — старый кэш в `resources/_gen` можно удалять, он пересоберётся.

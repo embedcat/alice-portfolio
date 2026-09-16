@@ -1,0 +1,11 @@
+{{/* Override темы: в Hugo ≥ 0.146 удалён внутренний шаблон
+     "_internal/google_analytics_async.html" (использовался в themes/eternity). */}}
+{{ if not .IsHome }}
+    <footer class="footer">
+        {{ partial "footer_base.html" . }}
+    </footer>
+{{ end }}
+</body>
+
+{{ template "_internal/google_analytics.html" . }}
+</html>

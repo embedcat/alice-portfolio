@@ -14,7 +14,7 @@ description: >
 
 ## Назначение
 Персональный сайт-портфолио **Анастасии Прошкиной** — графического дизайнера и художника-сценографа.
-Заголовок сайта в `config.yaml` — `Анастасия Прошкина`, на страницах (`index.md`, `about.md`) — `Анастасия Олеговна Прошкина`.
+Заголовок сайта в `config.yaml` — `Анастасия Прошкина`, на страницах (`home.md`, `about.md`) — `Анастасия Олеговна Прошкина`.
 Старая фамилия «Смолова» осталась только в URL Instagram-аккаунта (`anastasiiasmolova1990`) — это реальный хэндл.
 Сайт демонстрирует работы в трёх категориях: дизайн (детские игрушки, пазлы), живопись и графика.
 
@@ -22,8 +22,8 @@ description: >
 
 | Компонент       | Технология                     | Версия / Детали                |
 |-----------------|--------------------------------|--------------------------------|
-| SSG             | Hugo (extended)                | 0.120.4                        |
-| Тема            | Eternity (форк)                | git submodule                  |
+| SSG             | Hugo (extended)                | 0.166.0 (минимум — 0.155)      |
+| Тема            | Eternity (форк)                | git submodule, апстрим заморожен|
 | CSS Framework   | Bulma                          | через тему                     |
 | CI/CD           | GitHub Actions                 | push → master                  |
 | Хостинг         | VPS (SCP deploy)               | `/www/alice/public/`           |
@@ -57,7 +57,7 @@ hideDate: true               # Опционально (прячет дату)
 - Пути в `images:` указываются от корня `assets/` без префикса `assets`: файл `assets/images/design/abc.png` → `/images/design/abc.png`
 
 ### Страницы
-- `index.md` — главная (короткое bio + аватар)
+- `home.md` — главная (короткое bio + аватар), публичный URL `/index/` через `url: index`
 - `about.md` — полное CV/резюме с историей карьеры
 - `_index.md` — welcome page (bypassed через `bypassWelcomePage: true`)
 - `404.md` — страница ошибки
@@ -87,6 +87,20 @@ hideDate: true               # Опционально (прячет дату)
 - `arts` — живопись
 - `graphics` — графика
 - `archive` — все работы (добавляется ВСЕГДА)
+
+## Оверрайды шаблонов темы (`layouts/`)
+
+Тема Eternity больше не развивается (форк `embedcat/eternity-hugo` совпадает с апстримом `boratanrikulu/eternity@main`, последний коммит — пометка «not maintained»), поэтому совместимость с новыми Hugo поддерживается копиями её шаблонов в `layouts/`:
+
+| Файл | Правка | Причина |
+|------|--------|---------|
+| `partials/footer.html` | убрана строка `_internal/google_analytics_async.html` | внутренний шаблон удалён в Hugo ≥ 0.146 — иначе `error building site` |
+| `partials/slides/columns.html` | имя тега берётся из `.Data.Term`, а не `.Params.Title` | у term-страниц больше нет `.Params.Title` → `index ... value is nil` |
+| `partials/slides/slide.html` | `Image.Exif` → `Image.Meta.Exif` | `Image.Exif` deprecated с Hugo 0.155 |
+| `partials/slides/meta.html` | то же | то же |
+| `partials/slides/slider.html` | то же | то же |
+
+Правило: тему (`themes/eternity/`) не трогаем; при обновлении Hugo сверяем оверрайды с оригиналами.
 
 ## Кастомизация стилей
 
@@ -120,7 +134,7 @@ hideDate: true               # Опционально (прячет дату)
 | `disableRadius`               | `true`      | Без скруглений на изображениях       |
 | `moveIt`                      | `true`      | Title/meta видны только при скролле  |
 | `disableAlwaysResize`         | `false`     | Всегда ресайзить изображения         |
-| `homepage`                    | `/index`    | Куда ведёт лого и редирект с `/`     |
+| `homepage`                    | `/home`     | **Content-путь** для `relref` (файл `content/home.md`), не URL |
 | `specialPages`                | `work`, `archive` | Спец-страницы (мета в слайдах) |
 | `disableWelcomePageBackground`| `false`     | Фон на welcome-странице включён      |
 | `dontShowSource`              | `true`      | Скрыть ссылку на исходник темы       |
@@ -134,18 +148,22 @@ push to master
     ↓
 GitHub Actions (hugo.yml)
     ↓
-Install Hugo 0.120.4 (extended) + Dart Sass
+Install Hugo 0.166.0 (extended)
     ↓
-Checkout (with submodules: recursive)
+Checkout@v7 (with submodules: recursive)
     ↓
 hugo --minify
     ↓
-SCP (appleboy/scp-action, source "./public") → VPS:/www/alice/
+scp-action@v1 (source "./public", rm: true) → VPS:/www/alice/staging/public
     ↓
-файлы оказываются в /www/alice/public/
+ssh-action@v1: public → public.old, staging/public → public, чистка
+    ↓
+веб-корень /www/alice/public/ (путь не меняется)
 ```
 
-> `scp-action` копирует каталог `./public` **внутрь** `target`, поэтому веб-корень на VPS — `/www/alice/public/`, а не `/www/alice/`.
+> **Почему через staging.** `scp-action` копирует каталог `./public` внутрь `target` и ничего не удаляет — при прямой заливке файлы, исчезнувшие из сборки (например, превью со старой схемой имён после апгрейда Hugo), оставались бы на сервере навсегда. Подмена каталога двумя `mv` занимает миллисекунды; при сбое шаг откатывает прошлую версию.
+> Dart Sass из пайплайна убран — в проекте и теме нет ни одного `.scss`.
+> На сервере нужен запас места под три копии сборки (~190 МБ при текущих 62 МБ).
 
 **Secrets** (GitHub repo settings):
 - `VPS_HOST` — адрес сервера
@@ -166,13 +184,13 @@ hugo server -D
 hugo --minify
 ```
 
-Локально проверено: Hugo `0.120.4+extended` собирает сайт без ошибок (53 страницы, 113 обработанных изображений).
-Единственный warning — `content` содержит и `index.*`, и `_index.*` (см. «Известные проблемы»).
+Локально проверено на Hugo `0.166.0+extended`: чистая сборка без warning'ов — 54 страницы, 105 изображений, ~8 с с нуля и ~150 мс инкрементально.
+Версии старше 0.155 **не подойдут**: оверрайды используют `Image.Meta`.
 
 ## Навигация сайта
 
 ```
-главная (/index/)          → index.md (bio + аватар)
+главная (/index/)          → home.md (bio + аватар)
 обо мне (/about/)          → about.md (полное CV)
 дизайн (/tags/design/)     → фильтр по тегу design (3 колонки)
 живопись (/tags/arts/)      → фильтр по тегу arts (3 колонки)
@@ -181,12 +199,12 @@ hugo --minify
 ```
 
 ## Известные проблемы
-*Актуально на 2026-09-16.*
+*Актуально на 2026-09-16, Hugo 0.166.0.*
 
-1. Warning сборки: `Content directory "content" have both index.* and _index.* files, pick one` — рядом лежат `index.md` (главная) и `_index.md` (welcome)
-2. `static/CNAME` содержит `eternity.bora.sh` — мусор от оригинальной темы (на деплой по SCP не влияет)
-3. `content/work/_index.md` — дефолтное описание Eternity, не кастомизировано
-4. `content/_index.md` — дефолтный `desc` темы («Eternity is a minimalist Hugo theme…»)
-5. Неиспользуемые файлы в `assets/images/`: `graphics/zebru.jpg`, `about.png`, `gtd.png`
-6. Google Analytics и Plausible не настроены; Hugo предупреждает об устаревшем `_internal/google_analytics_async.html`
-7. Не закоммичено: `content/index.md` и правки `config.yaml` (title, `homepage: /index`, пункт меню «главная»). Коммитить их нужно вместе — иначе `/index/` даст 404 на продакшене
+1. `static/CNAME` содержит `eternity.bora.sh` — мусор от оригинальной темы (на деплой по SCP не влияет)
+2. `content/work/_index.md` — дефолтное описание Eternity, не кастомизировано
+3. `content/_index.md` — дефолтный `desc` темы («Eternity is a minimalist Hugo theme…»)
+4. Неиспользуемые файлы в `assets/images/`: `graphics/zebru.jpg`, `about.png`, `gtd.png`
+5. Google Analytics и Plausible не настроены
+6. Тема заморожена апстримом — несовместимости с будущими Hugo придётся чинить новыми оверрайдами в `layouts/`
+7. `content/home.md` нельзя переименовывать в `index.md`: в Hugo ≥ 0.123 это делает главную leaf bundle и обрушает весь сайт до 7 страниц
