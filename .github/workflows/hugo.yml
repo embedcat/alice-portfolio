@@ -37,6 +37,16 @@ jobs:
         uses: actions/checkout@v7
         with:
           submodules: recursive
+      # Кэш ресайзнутых картинок: без него Hugo пересоздаёт все 105 превью
+      # на каждом прогоне (~24 с). Ключ завязан на версию Hugo (у разных
+      # версий разная схема имён) и на содержимое assets/images.
+      - name: Cache processed images
+        uses: actions/cache@v6
+        with:
+          path: resources/_gen
+          key: hugo-resources-${{ env.HUGO_VERSION }}-${{ hashFiles('assets/images/**') }}
+          restore-keys: |
+            hugo-resources-${{ env.HUGO_VERSION }}-
       - name: Build with Hugo
         env:
           # For maximum backward compatibility with Hugo modules
@@ -44,41 +54,34 @@ jobs:
           HUGO_ENV: production
         run: |
           hugo --minify
-      # Заливаем сборку во временный каталог: rm:true чистит его перед копированием,
-      # поэтому в staging никогда не остаётся мусор от прошлых версий.
-      - name: Upload build to staging dir on VPS
-        uses: appleboy/scp-action@v1
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          port: ${{ secrets.VPS_PORT }}
-          key: ${{ secrets.VPS_KEY }}
-          source: "./public"
-          target: /www/alice/staging/
-          rm: true
-      # Подменяем каталог целиком (два mv ≈ мгновенно), старая версия удаляется
-      # только после успешной подмены. Это выкидывает файлы, которых больше нет
-      # в сборке, — SCP сам по себе ничего не удаляет.
-      - name: Swap staging into place
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          port: ${{ secrets.VPS_PORT }}
-          key: ${{ secrets.VPS_KEY }}
-          script: |
-            set -e
-            if [ ! -d /www/alice/staging/public ]; then
-              echo "staging/public не найден — деплой прерван, прод не тронут" >&2
-              exit 1
-            fi
-            rm -rf /www/alice/public.old
-            if [ -d /www/alice/public ]; then
-              mv /www/alice/public /www/alice/public.old
-            fi
-            if ! mv /www/alice/staging/public /www/alice/public; then
-              echo "подмена не удалась — откатываемся на прошлую версию" >&2
-              [ -d /www/alice/public.old ] && mv /www/alice/public.old /www/alice/public
-              exit 1
-            fi
-            rm -rf /www/alice/public.old /www/alice/staging
+      # Страховка перед rsync --delete: если сборка вышла пустой или битой,
+      # деплой должен упасть здесь, а не выкосить сайт на проде.
+      - name: Sanity-check build
+        run: |
+          set -euo pipefail
+          test -f public/index.html
+          test -f public/index/index.html
+          test -f public/about/index.html
+          files=$(find public -type f | wc -l)
+          echo "файлов в сборке: $files"
+          test "$files" -gt 100
+      # rsync передаёт только изменившиеся файлы и сам удаляет с сервера то,
+      # чего больше нет в сборке.
+      # --checksum обязателен: Hugo пересоздаёт весь public/ на каждом прогоне,
+      # поэтому mtime у всех файлов всегда новый и обычная проверка "размер+время"
+      # считала бы изменившимся вообще всё.
+      - name: Deploy to VPS via rsync
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USERNAME: ${{ secrets.VPS_USERNAME }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_KEY: ${{ secrets.VPS_KEY }}
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          printf '%s\n' "$VPS_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p "$VPS_PORT" -H "$VPS_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          rsync -rlpt --checksum --delete --human-readable --stats \
+            -e "ssh -i ~/.ssh/deploy_key -p $VPS_PORT" \
+            ./public/ "$VPS_USERNAME@$VPS_HOST:/www/alice/public/"
