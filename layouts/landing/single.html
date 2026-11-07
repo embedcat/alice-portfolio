@@ -11,16 +11,16 @@
 
 <section class="section landing">
 	<div class="landing-hero">
-		<img class="landing-photo" src="{{ "avatar.jpg" | absURL }}" width="200"
-			alt="{{ .Site.Params.author }}" />
-		<div class="landing-intro">
-			<h1 class="landing-name">{{ .Site.Params.author }}</h1>
-			<p class="landing-subtitle">{{ .Site.Params.subtitle }}</p>
-			<div class="landing-text">{{ .Content }}</div>
-			<div class="landing-actions">
-				<a class="landing-button" href="/tags/archive/">Смотреть работы</a>
-				{{ with $email }}<a class="landing-button landing-button-ghost" href="{{ . }}">Написать</a>{{ end }}
-			</div>
+		<h1 class="landing-name">{{ .Site.Params.author }}</h1>
+		<p class="landing-subtitle">{{ .Site.Params.subtitle }}</p>
+		<div class="landing-text">
+			<img class="landing-photo" src="{{ "avatar.jpg" | absURL }}" width="300"
+				alt="{{ .Site.Params.author }}" />
+			{{ .Content }}
+		</div>
+		<div class="landing-actions">
+			<a class="landing-button" href="/tags/archive/">Смотреть работы</a>
+			{{ with $email }}<a class="landing-button landing-button-ghost" href="{{ . }}">Написать</a>{{ end }}
 		</div>
 	</div>
 

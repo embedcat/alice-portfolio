@@ -134,27 +134,22 @@ section.section {
     margin: 0 auto;
 }
 
-.landing-hero {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 2.5rem;
+.landing-text {
+    display: flow-root;
 }
 
 .landing-photo {
-    width: 200px;
+    float: right;
+    width: 300px;
     height: auto;
-    flex: none;
-}
-
-.landing-intro {
-    flex: 1 1 380px;
+    margin: 0 0 1rem 2rem;
 }
 
 .landing-name {
     font-size: 2.4rem !important;
     margin: 0 0 0.4rem 0 !important;
     color: #eee !important;
+    text-align: center;
 }
 
 .landing-subtitle {
@@ -162,6 +157,7 @@ section.section {
     font-size: 1.15rem;
     letter-spacing: 0.02em;
     margin-bottom: 1.1rem;
+    text-align: center;
 }
 
 .landing-text p {
@@ -243,19 +239,11 @@ section.section {
         padding-bottom: 0.3rem;
     }
 
-    .landing-hero {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 1.5rem;
-    }
-
-    .landing-intro {
-        flex: 1 1 auto;
-    }
-
     .landing-photo {
-        width: 150px;
+        float: none;
+        display: block;
+        max-width: 100%;
+        margin: 0 auto 1.4rem;
     }
 
     .landing-name {
