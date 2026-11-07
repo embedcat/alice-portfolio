@@ -2,6 +2,7 @@
      1. Hugo >= 0.155: Image.Exif объявлен deprecated, заменён на Image.Meta.Exif.
      2. Добавлен alt из front matter работы — в теме картинки шли без alt.
      3. Крупный просмотр: 3000px PNG/JPEG -> 2000px WebP (вес сборки).
+     4. Подписи из alt включаются глобально через params.showImageCaptions.
      Остальное — копия themes/eternity/layouts/partials/slides/slide.html. */}}
 {{ $imgs := slice }}
 {{ range $i, $image := .ctx.Params.images }}
@@ -15,7 +16,7 @@
 {{ if or (and (gt (len $imgs) 1) (not .ctx.Params.multipleColumn)) (gt (len .ctx.Content) 0) }}
 	{{ $includesInfo = true }}
 {{ end }}
-<div class="slide" {{ if $includesInfo }} info="true" {{ end }} path="{{ $.ctx.Page.RelPermalink }}">
+<div class="slide{{ if and .ctx.Site.Params.showImageCaptions .ctx.Params.alt }} has-caption{{ end }}" {{ if $includesInfo }} info="true" {{ end }} path="{{ $.ctx.Page.RelPermalink }}">
 	<div>
 		<div class="slide-imgs {{ if not $.disableFullheight }} fullheight {{end}}">
 			<div>
@@ -43,9 +44,14 @@
 							{{ end }}
 							{{ $img = $img.Resize $resizer }}
 						{{ end  }}
-						<div {{ if $.ctx.Params.multipleColumn }} class="column" {{ end }}>
+						<figure class="slide-figure{{ if $.ctx.Params.multipleColumn }} column{{ end }}">
 							<img src="{{ $img.RelPermalink }}" alt="{{ $.ctx.Params.alt }}" loading="lazy" width="{{ $img.Width }}" height="{{ $img.Height }}" />
-						</div>
+							{{ if $.ctx.Site.Params.showImageCaptions }}
+								{{ with $.ctx.Params.alt }}
+									<figcaption class="slide-caption">{{ . }}</figcaption>
+								{{ end }}
+							{{ end }}
+						</figure>
 					{{ end }}
 				</div>
 				{{ if not .ctx.Site.Params.MoveIt }}

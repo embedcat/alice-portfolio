@@ -2,6 +2,54 @@
     width: 200px !important;
 }
 
+/* Описание крупного изображения; снизу оставлено место для навигации. */
+.slide-figure {
+    margin: 0;
+    text-align: center;
+}
+
+.slide-caption {
+    max-width: 65ch;
+    margin: 0.5rem auto 0;
+    color: var(--white);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+#slider .slide-imgs.fullheight {
+    padding: 3.5rem 1rem 5.5rem;
+}
+
+#slider .slide img {
+    display: block;
+    margin: 0 auto;
+    max-height: calc(100vh - 9rem);
+    max-height: calc(100svh - 9rem);
+    object-fit: contain;
+}
+
+#slider .slide.has-caption img {
+    max-height: calc(100vh - 15rem);
+    max-height: calc(100svh - 15rem);
+}
+
+#slider .navigate {
+    bottom: 1rem;
+    right: 1rem;
+    height: 3rem;
+    padding: 0.5rem 1rem;
+}
+
+#slider .prev,
+#slider .next {
+    font-size: 1.6rem;
+}
+
+#slider .next {
+    margin-left: 2rem;
+}
+
 h1,
 h2,
 h3,
@@ -9,6 +57,16 @@ h4,
 h5,
 h6 {
     color: var(--white) !important;
+}
+
+/* В теме меню ограничено 600px — новые пункты переносились даже на широком экране. */
+.navbar .menu {
+    max-width: none;
+}
+
+/* Нижняя граница активного пункта меню. */
+.navbar .menu a.active {
+    border-bottom-width: 3px;
 }
 
 /* Вводный текст раздела (content/tags/<term>/_index.md) */
@@ -85,8 +143,7 @@ section.section {
 
 .landing-photo {
     width: 200px;
-    height: 200px;
-    object-fit: cover;
+    height: auto;
     flex: none;
 }
 
@@ -110,6 +167,17 @@ section.section {
 .landing-text p {
     line-height: 1.6;
     margin-bottom: 1.4rem;
+}
+
+.landing-text ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1.4rem;
+    line-height: 1.6;
+}
+
+.landing-text li + li {
+    margin-top: 0.5rem;
 }
 
 .landing-actions {
@@ -144,48 +212,6 @@ section.section {
     color: var(--dark) !important;
 }
 
-.landing-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.4rem;
-    margin-top: 4rem;
-}
-
-.landing-card {
-    display: block;
-    background: var(--dark-light);
-    margin-bottom: 0;
-}
-
-.landing-card:hover {
-    border-bottom: none;
-}
-
-.landing-card img {
-    display: block;
-    width: 100%;
-    height: auto;
-    transition: opacity 0.25s ease;
-}
-
-.landing-card:hover img {
-    opacity: 0.72;
-}
-
-.landing-card-title {
-    display: block;
-    padding: 0.7rem 0.9rem 0 0.9rem;
-    font-size: 1.25rem;
-    color: #eee;
-}
-
-.landing-card-text {
-    display: block;
-    padding: 0.15rem 0.9rem 0.9rem 0.9rem;
-    font-size: 0.95rem;
-    color: var(--grey);
-}
-
 .landing-footer {
     display: flex;
     flex-wrap: wrap;
@@ -194,17 +220,6 @@ section.section {
     margin-top: 4rem;
     padding-top: 1.6rem;
     border-top: 1px solid #2c2c2c;
-}
-
-.landing-about {
-    flex: 1 1 340px;
-    max-width: 560px;
-    color: var(--grey);
-    line-height: 1.55;
-}
-
-.landing-about a {
-    white-space: nowrap;
 }
 
 .landing-contacts {
@@ -241,7 +256,6 @@ section.section {
 
     .landing-photo {
         width: 150px;
-        height: 150px;
     }
 
     .landing-name {
@@ -250,12 +264,6 @@ section.section {
 
     .landing-actions {
         justify-content: center;
-    }
-
-    .landing-cards {
-        grid-template-columns: 1fr;
-        margin-top: 2.5rem;
-        gap: 1rem;
     }
 
     .landing-footer {

@@ -8,12 +8,12 @@ enableRobotsTXT: true
 params:
   image: /images/design/abc.png # картинка по умолчанию для ссылок в соцсетях
   # логотип берётся из assets/images/brand/logo.png (ресайз в partials/navbar.html)
-  subtitle: Графический дизайнер, художник
+  subtitle: художник-технолог сцены | художник-сценограф | мультидисциплинарный автор
   sitename: Анастасия Прошкина
   author: Анастасия Прошкина
   description: >-
     Анастасия Прошкина — графический дизайнер и художник-сценограф.
-    Дизайн детских игрушек и развивающих игр, живопись, графика.
+    Дизайн детских игрушек и развивающих игр, живопись, графика и миниатюры.
   dontShowSource: true # please, do not do this :)
   portfolio:
     columns:
@@ -21,6 +21,7 @@ params:
         design: 3
         graphics: 3
         arts: 3
+        miniatures: 3
         archive: 6
         default: 3
       mobile:
@@ -43,6 +44,7 @@ params:
   bypassWelcomePage: true # redirects "/" to "homepage" when it's true.
   disableWelcomePageBackground: false # disables the background image on the homepage
   disableRadius: true
+  showImageCaptions: true # подписи из alt под крупными изображениями; false — скрыть
   moveIt: true  # Moves Title and Meta info down, only visible when scroll.
   disableAlwaysResize: false
 
@@ -75,6 +77,12 @@ menu:
     - name: графика
       url: /tags/graphics/
       weight: 50
+    - name: миниатюры
+      url: /tags/miniatures/
+      weight: 55
     - name: галерея
       url: /tags/archive/
       weight: 60
+    - name: контакты
+      url: /contacts/
+      weight: 70
