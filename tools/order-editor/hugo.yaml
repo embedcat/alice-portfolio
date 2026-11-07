@@ -1,0 +1,10 @@
+# Additional output for the LOCAL editor only. Production uses config.yaml alone.
+outputFormats:
+  Order:
+    mediaType: application/json
+    baseName: order-editor
+    isPlainText: true
+outputs:
+  home:
+    - HTML
+    - Order

@@ -13,6 +13,12 @@
         "--renderToMemory"
       ],
       "port": 1313
+    },
+    {
+      "name": "order-editor",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["tools/order-editor/server.mjs"],
+      "port": 1314
     }
   ]
 }

@@ -167,6 +167,21 @@ alice-portfolio/
 
 ## Локальный предпросмотр
 
+### Порядок работ
+
+Локальный визуальный редактор: `node tools/order-editor/server.mjs` → `http://127.0.0.1:1314/`.
+На Windows: `.\tools\order-editor\start.cmd` (находит Node.js в PATH или в `.tools/node/node.exe`,
+Hugo — в PATH, `HUGO_BINARY` или локальном `.tools/hugo/hugo.exe`; `.tools/` исключён из Git).
+Требует Node.js ≥ 20 и Hugo extended ≥ 0.166.0; путь к Hugo можно передать через `--hugo`.
+Подробности — `tools/order-editor/README.md`. Четыре раздела, три колонки, перетаскивание;
+сохранение меняет только `weight` в front matter выбранного раздела (большие веса раньше).
+Общая галерея сортируется по тем же весам. Единую последовательность для сетки, слайдера
+и редактора возвращает `layouts/partials/helpers/portfolio-posts.html`.
+`layouts/index.order.json` используется только с дополнительным локальным конфигом
+`tools/order-editor/hugo.yaml`; редактор и его JSON не публикуются обычной сборкой.
+
+### Предпросмотр сайта
+
 `.claude/launch.json` поднимает `hugo server` на порту 1313 с `--baseURL=http://localhost:1313/`.
 Без явного baseURL сервер отдаёт страницы из `public/`, собранные с продакшен-адресом, и браузер
 подтягивает CSS и JS с `alice.rockevents.ru` — локальные правки стилей не видны.

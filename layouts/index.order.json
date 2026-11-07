@@ -1,0 +1,21 @@
+{{- /* Local-only manifest: enabled by tools/order-editor/hugo.yaml. */ -}}
+{{- $sections := slice -}}
+{{- range $term := slice "design" "arts" "graphics" "miniatures" -}}
+  {{- $items := slice -}}
+  {{- range partial "helpers/portfolio-posts.html" (dict "site" site "term" $term) -}}
+    {{- $page := .Page -}}
+    {{- $image := resources.Get (strings.TrimPrefix "/" (index $page.Params.images 0)) -}}
+    {{- $resizer := "1000x webp q82 r0" -}}
+    {{- with $image.Meta.Exif -}}
+      {{- if eq .Tags.Orientation 6 -}}{{- $resizer = "1000x webp q82 r270" -}}{{- end -}}
+      {{- if eq .Tags.Orientation 3 -}}{{- $resizer = "1000x webp q82 r180" -}}{{- end -}}
+      {{- if eq .Tags.Orientation 8 -}}{{- $resizer = "1000x webp q82 r90" -}}{{- end -}}
+    {{- end -}}
+    {{- $image = $image.Resize $resizer -}}
+    {{- $id := replace $page.File.Path "\\" "/" -}}
+    {{- $items = $items | append (dict "id" $id "alt" $page.Params.alt "image" $image.RelPermalink "width" $image.Width "height" $image.Height "weight" $page.Weight) -}}
+  {{- end -}}
+  {{- $title := (site.GetPage (printf "/tags/%s" $term)).Title -}}
+  {{- $sections = $sections | append (dict "id" $term "title" $title "items" $items) -}}
+{{- end -}}
+{{- dict "sections" $sections | jsonify -}}

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Порядок работ · Анастасия Прошкина</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" type="module"></script>
+</head>
+<body>
+  <header>
+    <div class="heading"><div><p class="eyebrow">АНАСТАСИЯ ПРОШКИНА · ЛОКАЛЬНЫЙ ИНСТРУМЕНТ</p><h1>Порядок работ</h1></div><span class="layout-label">3 колонки</span></div>
+    <nav id="tabs" aria-label="Разделы портфолио"></nav>
+    <div class="toolbar">
+      <p id="summary">Подготовка работ…</p>
+      <div class="actions"><button id="reload">Обновить список</button><button id="undo" disabled>Отменить последнее</button><button id="reset" disabled>Сбросить</button><button id="save" class="primary" disabled>Сохранить порядок</button></div>
+    </div>
+    <p id="message" role="status" aria-live="polite">Загрузка…</p>
+  </header>
+  <main>
+    <p class="hint">Перетащите изображение перед или после другого. Последовательность распределяется по трём колонкам, как на сайте.</p>
+    <div id="gallery" aria-label="Работы в трёх колонках"></div>
+    <p class="footnote">Сохранение обновляет веса в файлах текущего раздела. Общая галерея следует этим весам. Публикация — через обычный коммит и push.</p>
+  </main>
+</body>
+</html>

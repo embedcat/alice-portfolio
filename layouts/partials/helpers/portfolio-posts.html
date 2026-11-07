@@ -1,0 +1,5 @@
+{{/* Keep the theme's tie order, then explicitly sort Page.Weight on WeightedPage entries.
+     Sorting the Page object alone does not reliably apply front matter weight. */}}
+{{ $posts := index .site.Taxonomies.tags .term | default slice }}
+{{ $posts = sort $posts "Page" "desc" }}
+{{ return (sort $posts "Page.Weight" "desc") }}
