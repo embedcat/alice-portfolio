@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
-import { openStore, replaceWeight, Conflict } from './store.mjs';
+import { openStore, replaceWeight, replaceCaption, Conflict } from './store.mjs';
 
 test('weight replacement preserves UTF-8 BOM, CRLF, comments and all other front matter', () => {
   const bytes = Buffer.from('\uFEFF---\r\nalt: "Изображение: описание"\r\nweight: -12 # порядок\r\nimages:\r\n- /images/a.jpg\r\n---\r\n');
@@ -17,7 +17,7 @@ async function fixture(t) {
   const root = await mkdtemp(path.join(tmpdir(), 'alice-store-test-'));
   t.after(() => rm(root, { recursive: true, force: true }));
   await mkdir(path.join(root, 'content/work/design'), { recursive: true });
-  const manifest = { sections: [{ id: 'design', items: ['a', 'b', 'c'].map(name => ({ id: `work/design/${name}.md`, weight: 1 })) }] };
+  const manifest = { sections: [{ id: 'design', items: ['a', 'b', 'c'].map(name => ({ id: `work/design/${name}.md`, alt: `work/design/${name}.md`, weight: 1 })) }] };
   for (const item of manifest.sections[0].items) await writeFile(path.join(root, 'content', item.id), `---\nweight: 1\nalt: "${item.id}"\n---\n`);
   const store = await openStore(root, manifest);
   const order = [...manifest.sections[0].items.map(i => i.id)].reverse();
@@ -61,6 +61,39 @@ test('added or removed work requires refresh', async t => {
   await assert.rejects(store.save({ section: 'design', order, revision }), Conflict);
 });
 
+test('caption replacement quotes YAML safely and preserves BOM, comments, CRLF and body', () => {
+  const bytes = Buffer.from('\uFEFF---\r\nweight: 7\r\nalt: \'Авторская подпись\' # оставить\r\ntitle: "Название"\r\n---\r\nalt: "Не front matter"\r\n');
+  const caption = 'Новая подпись: "Название" # текст\\путь\nВторая строка';
+  const expected = bytes.toString().replace("'Авторская подпись'", JSON.stringify(caption));
+  assert.equal(replaceCaption(bytes, caption).toString(), expected);
+  assert.equal(replaceCaption(Buffer.from('---\nalt: "Было"\n---\n'), 'Текст\u2028продолжение').toString(), '---\nalt: "Текст\\u2028продолжение"\n---\n');
+  assert.throws(() => replaceCaption(bytes, '  '));
+  assert.throws(() => replaceCaption(bytes, 'x'.repeat(2001)));
+  assert.throws(() => replaceCaption(Buffer.from('---\nweight: 1\n---\nalt: "Вне front matter"'), 'Подпись'));
+});
+
+test('caption-only save changes one alt without changing weights or other files', async t => {
+  const { root, store } = await fixture(t);
+  const section = store.state().sections[0], order = section.items.map(item => item.id), id = order[0];
+  const before = new Map(await Promise.all(order.map(async id => [id, await readFile(path.join(root, 'content', id))])));
+  const caption = 'Название: "Новая работа" # подпись';
+  const result = await store.save({ section: 'design', order, revision: section.revision, captions: { [id]: caption } });
+  assert.equal(result.changedFiles, 1);
+  assert.equal(result.sections[0].items[0].alt, caption);
+  assert.deepEqual(result.sections[0].items.map(item => item.weight), [1, 1, 1]);
+  assert.deepEqual(await readFile(path.join(root, 'content', id)), replaceCaption(before.get(id), caption));
+  for (const other of order.slice(1)) assert.deepEqual(await readFile(path.join(root, 'content', other)), before.get(other));
+  await assert.rejects(store.save({ section: 'design', order, revision: section.revision, captions: { [id]: 'Устаревшая правка' } }), Conflict);
+});
+
+test('invalid captions are rejected before writing weights or text', async t => {
+  const { root, store, order, revision } = await fixture(t);
+  for (const captions of [null, [], { [order[0]]: ' ' }, { [order[0]]: 42 }, { [order[0]]: 'x'.repeat(2001) }, { 'work/arts/foreign.md': 'Чужая работа' }]) {
+    await assert.rejects(store.save({ section: 'design', order, revision, captions }));
+  }
+  for (const id of order) assert.match(await readFile(path.join(root, 'content', id), 'utf8'), /weight: 1\n/);
+});
+
 test('Hugo rebuild reproduces saved order in desktop, mobile and slideshow', { skip: !process.env.HUGO_BINARY }, async t => {
   const root = await mkdtemp(path.join(tmpdir(), 'alice-hugo-test-'));
   t.after(() => rm(root, { recursive: true, force: true }));
@@ -74,13 +107,16 @@ test('Hugo rebuild reproduces saved order in desktop, mobile and slideshow', { s
   const store = await openStore(root, manifest);
   for (const section of store.state().sections) {
     const order = section.items.map(item => item.id).reverse();
-    await store.save({ section: section.id, order, revision: section.revision });
+    await store.save({ section: section.id, order, revision: section.revision,
+      captions: { [order[0]]: `Подпись: "${section.title}" # текст\\путь\nВторая строка` },
+    });
   }
   build();
   const rebuilt = JSON.parse(await readFile(path.join(output, 'order-editor.json'), 'utf8'));
   for (const section of rebuilt.sections) {
     const expected = store.state().sections.find(s => s.id === section.id).items;
     assert.deepEqual(section.items.map(i => i.id), expected.map(i => i.id));
+    assert.deepEqual(section.items.map(i => i.alt), expected.map(i => i.alt));
     const html = await readFile(path.join(output, `tags/${section.id}/index.html`), 'utf8');
     const sections = [...html.matchAll(/<section id="(desktop|mobile)"[\s\S]*?<\/section>/g)];
     assert.equal(sections.length, 2);

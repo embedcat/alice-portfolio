@@ -1,6 +1,6 @@
 // Pointer-based dragging keeps a full-size image under the cursor and previews
 // the actual three-column layout. A completed gesture creates one undo step.
-export function attachLiveDrag(gallery, { getOrder, isBusy, commit, reset }) {
+export function attachLiveDrag(gallery, { getOrder, isBusy, commit, reset, tap }) {
   let drag = null;
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const bounds = element => {
@@ -77,7 +77,7 @@ export function attachLiveDrag(gallery, { getOrder, isBusy, commit, reset }) {
     document.body.classList.remove('is-dragging');
     for (const card of gesture.cards.values()) card.getAnimations().forEach(animation => animation.cancel());
     if (gallery.hasPointerCapture(gesture.pointerId)) gallery.releasePointerCapture(gesture.pointerId);
-    if (!gesture.image) return;
+    if (!gesture.image) { if (accept) tap?.(gesture.id); return; }
     const changed = gesture.order.some((id, index) => id !== gesture.original[index]);
     if (accept && changed) commit(gesture.order);
     else reset();

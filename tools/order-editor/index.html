@@ -14,14 +14,24 @@
     <nav id="tabs" aria-label="Разделы портфолио"></nav>
     <div class="toolbar">
       <p id="summary">Подготовка работ…</p>
-      <div class="actions"><button id="reload">Обновить список</button><button id="undo" disabled>Отменить последнее</button><button id="reset" disabled>Сбросить</button><button id="save" class="primary" disabled>Сохранить порядок</button></div>
+      <div class="actions"><button id="reload">Обновить список</button><button id="undo" disabled>Отменить последнее</button><button id="reset" disabled>Сбросить</button><button id="save" class="primary" disabled>Сохранить изменения</button></div>
     </div>
     <p id="message" role="status" aria-live="polite">Загрузка…</p>
   </header>
   <main>
-    <p class="hint">Перетащите изображение перед или после другого. Последовательность распределяется по трём колонкам, как на сайте.</p>
+    <p class="hint">Перетаскивайте изображения для изменения порядка. Нажмите на изображение, чтобы отредактировать подпись.</p>
     <div id="gallery" aria-label="Работы в трёх колонках"></div>
-    <p class="footnote">Сохранение обновляет веса в файлах текущего раздела. Общая галерея следует этим весам. Публикация — через обычный коммит и push.</p>
+    <p class="footnote">Сохранение записывает порядок и подписи текущего раздела. Публикация — через обычный коммит и push.</p>
   </main>
+  <dialog id="caption-dialog" aria-labelledby="caption-heading">
+    <form id="caption-form">
+      <h2 id="caption-heading">Подпись изображения</h2>
+      <img id="caption-preview" alt="">
+      <label for="caption-text">Подпись</label>
+      <textarea id="caption-text" rows="4" maxlength="2000" required></textarea>
+      <p class="dialog-hint">После применения нажмите «Сохранить изменения» на общей панели.</p>
+      <div class="dialog-actions"><button id="caption-cancel" type="button">Отмена</button><button class="primary" type="submit">Применить</button></div>
+    </form>
+  </dialog>
 </body>
 </html>

@@ -33,4 +33,14 @@ article.drag-placeholder img { opacity: .16; }
 .is-dragging, .is-dragging * { cursor: grabbing !important; user-select: none; }
 article img { display: block; width: 100%; height: auto; pointer-events: none; }
 body.busy article { cursor: wait; }
+article:focus-visible { outline: 2px solid #d8e6a3; outline-offset: 4px; }
+dialog { width: min(560px, calc(100vw - 40px)); max-height: calc(100dvh - 40px); padding: 24px; border: 1px solid #4a4a43; border-radius: 8px; background: #20201e; color: #ece9e2; overflow-y: auto; }
+dialog::backdrop { background: #000b; }
+dialog h2 { margin: 0 0 18px; font-size: 21px; font-weight: 500; }
+#caption-preview { display: block; max-width: 100%; max-height: 32vh; width: auto; height: auto; margin: 0 auto 20px; }
+dialog label { display: block; margin-bottom: 8px; font-size: 13px; }
+dialog textarea { display: block; width: 100%; padding: 10px; resize: vertical; font: inherit; font-size: 14px; line-height: 1.5; border: 1px solid #626257; border-radius: 4px; background: #181818; color: inherit; }
+dialog textarea:focus { outline: 2px solid #d5e2ad; outline-offset: 2px; }
+.dialog-hint { font-size: 12px; color: #aaa99f; line-height: 1.6; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
 @media (max-width: 800px) { header { position: static; padding: 20px; } main { padding: 0 20px 24px; overflow-x: auto; } #gallery { gap: 14px; } .actions { flex-wrap: wrap; } h1 { font-size: 26px; } }

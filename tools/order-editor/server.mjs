@@ -38,7 +38,7 @@ async function body(req) {
   const chunks = []; let size = 0;
   for await (const chunk of req) {
     size += chunk.length;
-    if (size > 100_000) throw new Error('Слишком большой запрос.');
+    if (size > 1_000_000) throw new Error('Слишком большой запрос.');
     chunks.push(chunk);
   }
   return JSON.parse(Buffer.concat(chunks).toString('utf8'));
@@ -51,7 +51,7 @@ const server = http.createServer(async (req, res) => {
   if (req.headers.host !== `127.0.0.1:${port}`) return json(res, 403, { error: 'Откройте редактор по локальному адресу из терминала.' });
   try {
     const url = new URL(req.url, origin);
-    if (req.method === 'GET' && url.pathname === '/api/state') return json(res, 200, { ...store.state(), token });
+    if (req.method === 'GET' && url.pathname === '/api/state') return json(res, 200, { ...store.state(), token, capabilities: { captions: true } });
     if (req.method === 'POST' && ['/api/save', '/api/reload'].includes(url.pathname)) {
       if (req.headers.origin !== origin || req.headers['x-editor-token'] !== token) return json(res, 403, { error: 'Обновите страницу редактора.' });
       if (busy) return json(res, 409, { error: 'Дождитесь завершения предыдущего действия.' });
@@ -82,7 +82,7 @@ async function cleanup() { await rm(output, { recursive: true, force: true }); }
 try {
   await build();
   await new Promise((resolve, reject) => { server.once('error', reject); server.listen(port, '127.0.0.1', resolve); });
-  console.log(`\nРедактор порядка: ${origin}/\nСохранение меняет только weight в файлах выбранного раздела. Остановка: Ctrl+C.`);
+  console.log(`\nРедактор работ: ${origin}/\nСохранение записывает порядок и подписи выбранного раздела. Остановка: Ctrl+C.`);
   for (const signal of ['SIGINT', 'SIGTERM']) process.once(signal, () => server.close(async () => { await cleanup(); process.exit(0); }));
 } catch (error) {
   console.error(error.message);
