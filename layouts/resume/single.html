@@ -1,0 +1,24 @@
+{{/* Шаблон полного резюме: текст без фото и навигация по разделам. */}}
+{{ partial "header.html" . }}
+{{ partial "navbar.html" . }}
+
+<main class="section resume-section">
+    <div class="resume-layout">
+        <nav class="resume-nav" aria-label="Разделы резюме">
+            <p class="resume-nav-title">Обо мне</p>
+            <ul>
+                <li><a href="#education">Образование</a></li>
+                <li><a href="#experience">Опыт и проекты</a></li>
+                <li><a href="#scenography">Сценография</a></li>
+                <li><a href="#lighting">Свет</a></li>
+                <li><a href="#decorations">Создание декораций</a></li>
+                <li><a href="#productions">Выпуск спектаклей</a></li>
+            </ul>
+        </nav>
+        <article class="content resume-content" aria-label="Резюме Анастасии Прошкиной">
+            {{ .Content }}
+        </article>
+    </div>
+</main>
+
+{{ partial "footer.html" . }}

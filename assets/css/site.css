@@ -2,6 +2,140 @@
     width: 200px !important;
 }
 
+/* Полное резюме: отдельная типографика и оглавление, без стилей галереи. */
+.resume-layout {
+    display: grid;
+    grid-template-columns: 12rem minmax(0, 46rem);
+    gap: 4rem;
+    max-width: 62rem;
+    margin: 2.5rem auto 0;
+    align-items: start;
+}
+
+.resume-nav {
+    position: sticky;
+    top: 2rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.resume-nav-title {
+    color: var(--main-light);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.resume-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.resume-nav li + li {
+    margin-top: 0.8rem;
+}
+
+.resume-nav a {
+    display: inline-block;
+    border-bottom: 1px solid transparent;
+    color: #c3bfbf;
+}
+
+.resume-nav a:hover,
+.resume-nav a:focus-visible {
+    color: var(--main-light);
+    border-bottom: 1px solid var(--main-light);
+}
+
+.resume-content {
+    min-width: 0;
+    color: #c3bfbf;
+    font-size: 1rem;
+    line-height: 1.75;
+    overflow-wrap: break-word;
+}
+
+.resume-content h1 {
+    margin: 0 0 0.8rem;
+    color: #eee !important;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 400;
+    line-height: 1.25;
+}
+
+.resume-content h1 + p {
+    color: var(--grey);
+    font-size: 0.9rem;
+}
+
+.resume-content h2 {
+    margin: 3.5rem 0 1.5rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid #383838;
+    color: #eee !important;
+    font-size: 1.65rem;
+    font-weight: 400;
+    line-height: 1.35;
+    scroll-margin-top: 1.5rem;
+}
+
+.resume-content h3 {
+    margin: 2rem 0 0.6rem;
+    color: #dedada !important;
+    font-size: 1.15rem;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.resume-content h2 + h3 {
+    margin-top: 0;
+}
+
+.resume-content h3 + p:has(> em:only-child) {
+    margin-bottom: 0.5rem;
+    color: var(--main-light);
+    font-size: 0.9rem;
+}
+
+.resume-content em {
+    font-style: normal;
+}
+
+.resume-content strong {
+    color: #dedada;
+    font-weight: 500;
+}
+
+.resume-content ul {
+    margin: 0.6rem 0 1.5rem 1.2rem;
+}
+
+.resume-content li + li {
+    margin-top: 0.65rem;
+}
+
+.resume-content li::marker {
+    color: var(--main-light);
+}
+
+@media (max-width: 900px) {
+    .resume-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2rem;
+        max-width: 46rem;
+        margin-top: 1.5rem;
+    }
+
+    .resume-nav {
+        display: none;
+    }
+
+    .resume-content h2 {
+        margin-top: 2.5rem;
+        font-size: 1.4rem;
+    }
+}
+
 /* Описание крупного изображения; снизу оставлено место для навигации. */
 .slide-figure {
     margin: 0;
@@ -263,6 +397,8 @@ section.section {
    почти весь первый экран до контента. */
 @media (max-width: 768px) {
     nav.navbar {
+        /* В теме width: 100%; вместе с боковыми отступами он шире экрана. */
+        width: auto;
         margin-left: 1rem;
         margin-right: 1rem;
         padding-top: 0.6rem;
