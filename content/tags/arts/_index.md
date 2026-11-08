@@ -1,5 +1,5 @@
 ---
-cover: /images/arts/mnt2.jpeg
+cover: /images/arts/arts3-2.jpeg
 weight: 20
 cardtext: Пейзажи, фигуры, анималистика
 title: Живопись

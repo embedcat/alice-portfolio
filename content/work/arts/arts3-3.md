@@ -2,7 +2,7 @@
 alt: "Живопись: горы с золотыми вершинами"
 weight: 78
 images:
-- /images/arts/mnt3.jpg
+- /images/arts/arts3-3.jpg
 tags:
 - archive # all posts
 - arts

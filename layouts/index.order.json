@@ -1,6 +1,6 @@
 {{- /* Local-only manifest: enabled by tools/order-editor/hugo.yaml. */ -}}
 {{- $sections := slice -}}
-{{- range $term := slice "design" "arts" "graphics" "miniatures" -}}
+{{- range $term := slice "design" "arts" "graphics" "miniatures" "theater" -}}
   {{- $items := slice -}}
   {{- range partial "helpers/portfolio-posts.html" (dict "site" site "term" $term) -}}
     {{- $page := .Page -}}

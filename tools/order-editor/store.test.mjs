@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, readFile, writeFile, rm, cp } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, writeFile, rm, cp, readdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -103,7 +103,11 @@ test('Hugo rebuild reproduces saved order in desktop, mobile and slideshow', { s
   const build = () => execFileSync(process.env.HUGO_BINARY, ['--config', 'config.yaml,tools/order-editor/hugo.yaml', '--contentDir', path.join(root, 'content'), '--destination', output], { cwd: repo, windowsHide: true });
   build();
   const manifest = JSON.parse(await readFile(path.join(output, 'order-editor.json'), 'utf8'));
-  assert.deepEqual(manifest.sections.map(s => s.items.length), [14, 23, 6, 19]);
+  assert.deepEqual(manifest.sections.map(s => s.id), ['design', 'arts', 'graphics', 'miniatures', 'theater']);
+  for (const section of manifest.sections) {
+    const files = await readdir(path.join(root, 'content/work', section.id));
+    assert.equal(section.items.length, files.filter(file => file.endsWith('.md')).length);
+  }
   const store = await openStore(root, manifest);
   for (const section of store.state().sections) {
     const order = section.items.map(item => item.id).reverse();

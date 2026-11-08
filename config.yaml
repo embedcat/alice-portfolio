@@ -13,7 +13,7 @@ params:
   author: Анастасия Прошкина
   description: >-
     Анастасия Прошкина — графический дизайнер и художник-сценограф.
-    Дизайн детских игрушек и развивающих игр, живопись, графика и миниатюры.
+    Театр, дизайн детских игрушек и развивающих игр, живопись, графика и миниатюры.
   dontShowSource: true # please, do not do this :)
   portfolio:
     columns:
@@ -22,6 +22,7 @@ params:
         graphics: 3
         arts: 3
         miniatures: 3
+        theater: 3
         archive: 6
         default: 3
       mobile:
@@ -80,6 +81,9 @@ menu:
     - name: миниатюры
       url: /tags/miniatures/
       weight: 55
+    - name: театр
+      url: /tags/theater/
+      weight: 57
     - name: галерея
       url: /tags/archive/
       weight: 60

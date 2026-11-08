@@ -2,7 +2,7 @@
 alt: "Живопись: женская фигура на синем фоне"
 weight: 100
 images:
-- /images/arts/body1.jpeg
+- /images/arts/arts1-1.jpeg
 tags:
 - archive # all posts
 - arts
