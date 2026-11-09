@@ -2,7 +2,7 @@
 cover: /images/miniatures/ancient-ruins-side.jpg
 weight: 40
 cardtext: Макеты, объекты, работа с масштабом
-title: Миниатюры
+title: Миниатюра
 description: >-
   Миниатюры и макеты Анастасии Прошкиной: архитектура, ландшафты,
   сценические пространства и фигурки.

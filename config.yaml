@@ -69,8 +69,8 @@ menu:
     - name: обо мне
       url: /about/
       weight: 20
-    - name: дизайн
-      url: /tags/design/
+    - name: театр
+      url: /tags/theater/
       weight: 30
     - name: живопись
       url: /tags/arts/
@@ -78,15 +78,12 @@ menu:
     - name: графика
       url: /tags/graphics/
       weight: 50
-    - name: миниатюры
+    - name: миниатюра
       url: /tags/miniatures/
-      weight: 55
-    - name: театр
-      url: /tags/theater/
-      weight: 57
-    - name: галерея
-      url: /tags/archive/
       weight: 60
+    - name: дизайн
+      url: /tags/design/
+      weight: 70
     - name: контакты
       url: /contacts/
-      weight: 70
+      weight: 80
