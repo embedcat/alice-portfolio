@@ -1,6 +1,6 @@
 ---
 alt: "Живопись: розово-лиловые рыбы-окна на чёрном фоне"
-weight: 68
+weight: 130
 images:
 - /images/arts/arts4-3.png
 tags:

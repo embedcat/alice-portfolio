@@ -1,6 +1,6 @@
 ---
 alt: "Графика: заяц с чёрными кругами"
-weight: 2
+weight: 100
 images:
 - /images/graphics/rabbit.jpg
 tags:

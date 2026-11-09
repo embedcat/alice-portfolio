@@ -1,7 +1,7 @@
 ---
 title: Дада сказка
 alt: "Дада сказка"
-weight: 20
+weight: 220
 images:
 - /images/theater/dada-2.jpg
 tags:

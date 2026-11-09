@@ -1,7 +1,7 @@
 ---
 title: Миниатюрные фигурки
 alt: "Миниатюры: расписанные фигурки людей в разноцветной одежде, сложенные в прозрачную коробку"
-weight: 32
+weight: 170
 images:
 - /images/miniatures/miniature-figures.jpg
 tags:

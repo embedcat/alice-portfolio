@@ -1,6 +1,6 @@
 ---
 alt: "Детский календарь-часы с трактором и домашними животными"
-weight: 1
+weight: 60
 images:
 - /images/design/calendar-2.png
 tags:

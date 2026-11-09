@@ -1,6 +1,6 @@
 ---
 alt: "Живопись: разноцветные дома с окнами"
-weight: 90
+weight: 210
 images:
 - /images/arts/arts2-1.jpg
 tags:

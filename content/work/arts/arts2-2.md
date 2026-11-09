@@ -1,6 +1,6 @@
 ---
 alt: "Живопись: фигура с головой антилопы куду в серых тонах"
-weight: 89
+weight: 110
 images:
 - /images/arts/arts2-2.jpeg
 tags:

@@ -1,7 +1,7 @@
 ---
 title: ШОП
 alt: "ШОП"
-weight: 70
+weight: 360
 images:
 - /images/theater/shop-3.jpg
 tags:

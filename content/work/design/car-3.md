@@ -1,6 +1,6 @@
 ---
 alt: "Деревянная машинка-конструктор со львом, голубая"
-weight: 1
+weight: 90
 images:
 - /images/design/car-3.webp
 tags:

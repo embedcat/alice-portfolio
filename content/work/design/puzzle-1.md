@@ -1,6 +1,6 @@
 ---
 alt: "Пазл с городской улицей: дома, самолёт и трамвай"
-weight: 1
+weight: 120
 images:
 - /images/design/puzzle-1.png
 tags:

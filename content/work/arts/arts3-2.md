@@ -1,6 +1,6 @@
 ---
 alt: "Живопись: синие горы с розовыми вершинами"
-weight: 79
+weight: 170
 images:
 - /images/arts/arts3-2.jpeg
 tags:

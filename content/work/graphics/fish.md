@@ -1,6 +1,6 @@
 ---
 alt: "Графика: камбала"
-weight: 2
+weight: 120
 images:
 - /images/graphics/fish.jpg
 tags:

@@ -1,6 +1,6 @@
 ---
 alt: "Живопись: белые птицы над синими горами"
-weight: 99
+weight: 230
 images:
 - /images/arts/arts1-2.jpeg
 tags:

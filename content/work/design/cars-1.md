@@ -1,6 +1,6 @@
 ---
 alt: "Деревянные машинки-конструкторы на игровом коврике с дорогами"
-weight: 1
+weight: 30
 images:
 - /images/design/cars-1.jpg
 tags:

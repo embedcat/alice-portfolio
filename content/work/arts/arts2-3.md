@@ -1,6 +1,6 @@
 ---
 alt: "Живопись: фигура с белыми оленьими рогами на синем фоне"
-weight: 88
+weight: 200
 images:
 - /images/arts/arts2-3.jpg
 tags:

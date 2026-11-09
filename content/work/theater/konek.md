@@ -1,7 +1,7 @@
 ---
 title: Конёк-горбунок
 alt: "Конёк-горбунок"
-weight: 50
+weight: 250
 images:
 - /images/theater/konek.jpg
 tags:

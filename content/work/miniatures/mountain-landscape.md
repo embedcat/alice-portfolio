@@ -1,7 +1,7 @@
 ---
 title: Горный ландшафт
 alt: "Миниатюра: серые скалы над зелёным ландшафтом с деревьями, камнями и опорой с натянутыми тросами"
-weight: 37
+weight: 30
 images:
 - /images/miniatures/mountain-landscape.jpg
 tags:

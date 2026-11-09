@@ -1,6 +1,6 @@
 ---
 alt: "Живопись: женская фигура на синем фоне"
-weight: 100
+weight: 240
 images:
 - /images/arts/arts1-1.jpeg
 tags:

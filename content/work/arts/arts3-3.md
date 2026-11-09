@@ -1,6 +1,6 @@
 ---
 alt: "Живопись: горы с золотыми вершинами"
-weight: 78
+weight: 160
 images:
 - /images/arts/arts3-3.jpg
 tags:

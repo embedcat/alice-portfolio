@@ -1,7 +1,7 @@
 ---
 title: Курица в горошек
 alt: "Живопись: светлая курица в розовый горошек на розовом фоне"
-weight: 56
+weight: 10
 images:
 - /images/arts/spotted-hen.jpeg
 tags:

@@ -1,7 +1,7 @@
 ---
 title: Улитки
 alt: "Графика: улитки с узорчатыми раковинами, расположенные друг на друге, в чёрной раме"
-weight: -80
+weight: 10
 images:
 - /images/graphics/snails.jpg
 tags:

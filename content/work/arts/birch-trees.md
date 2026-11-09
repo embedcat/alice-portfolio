@@ -1,7 +1,7 @@
 ---
 title: Берёзы
 alt: "Живопись: белые стволы берёз на золотистом фоне в широкой бирюзовой рамке"
-weight: 53
+weight: 50
 images:
 - /images/arts/birch-trees.jpeg
 tags:

@@ -1,6 +1,6 @@
 ---
 alt: "Игровая карта Лондона с достопримечательностями: Биг-Бен, Лондонский глаз, музеи"
-weight: 1
+weight: 80
 images:
 - /images/design/london.jpg
 tags:

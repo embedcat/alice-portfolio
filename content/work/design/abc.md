@@ -1,6 +1,6 @@
 ---
 alt: "Деревянный пазл-алфавит: русские буквы-вкладыши с цветными узорами"
-weight: 1
+weight: 20
 images:
 - /images/design/abc.png
 tags:

@@ -1,7 +1,7 @@
 ---
 title: Незнайка
 alt: "Незнайка"
-weight: -10
+weight: 160
 images:
 - /images/theater/neznayka-1.jpg
 tags:

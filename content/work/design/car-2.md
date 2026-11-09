@@ -1,6 +1,6 @@
 ---
 alt: "Деревянная машинка-конструктор с горным пейзажем и птицами"
-weight: 1
+weight: 100
 images:
 - /images/design/car-2.webp
 tags:

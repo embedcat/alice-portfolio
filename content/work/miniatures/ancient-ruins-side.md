@@ -1,7 +1,7 @@
 ---
 title: Античные руины — вид сбоку
 alt: "Миниатюра: руины с белыми колоннами, каменной стеной и зелёным деревом, вид сбоку"
-weight: 45
+weight: 110
 images:
 - /images/miniatures/ancient-ruins-side.jpg
 tags:

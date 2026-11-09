@@ -1,7 +1,7 @@
 ---
 title: Спектакль
 alt: "Спектакль"
-weight: -160
+weight: 10
 images:
 - /images/theater/stage-scenery-2.jpg
 tags:

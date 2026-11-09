@@ -1,7 +1,7 @@
 ---
 title: Каскадный фонтан — вид сбоку
 alt: "Миниатюра: белый каскадный фонтан с чашами и колоннами на фоне серой каменной стены, вид сбоку"
-weight: 43
+weight: 90
 images:
 - /images/miniatures/cascade-fountain-side.jpg
 tags:

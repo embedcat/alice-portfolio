@@ -1,7 +1,7 @@
 ---
 title: На выставке графики
 alt: "Выставка графики: посетители у стола с открытками на фоне рисунков в рамах"
-weight: -10
+weight: 80
 images:
 - /images/graphics/graphics-exhibition-visitors.jpg
 tags:

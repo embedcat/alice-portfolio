@@ -1,6 +1,6 @@
 ---
 alt: "Детский календарь-часы с гоночной машиной: месяцы, дни недели и числа"
-weight: 1
+weight: 50
 images:
 - /images/design/calendar-1.png
 tags:

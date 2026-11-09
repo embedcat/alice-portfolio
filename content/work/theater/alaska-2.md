@@ -1,7 +1,7 @@
 ---
 title: Аляска
 alt: "Аляска"
-weight: 180
+weight: 340
 images:
 - /images/theater/alaska-2.jpg
 tags:

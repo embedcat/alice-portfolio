@@ -1,7 +1,7 @@
 ---
 title: Вокруг света за 80 дней
 alt: "Вокруг света за 80 дней"
-weight: 4
+weight: 200
 images:
 - /images/theater/around-world-80-days-1.jpg
 tags:

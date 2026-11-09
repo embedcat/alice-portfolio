@@ -1,7 +1,7 @@
 ---
 title: Чайки
 alt: "Живопись: две чайки с розовым контуром на серо-голубом фоне"
-weight: 40
+weight: 30
 images:
 - /images/arts/seagulls.jpg
 tags:

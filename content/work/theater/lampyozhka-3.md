@@ -1,7 +1,7 @@
 ---
 title: Лампёшка
 alt: "Лампёшка"
-weight: 120
+weight: 280
 images:
 - /images/theater/lampyozhka-3.jpg
 tags:

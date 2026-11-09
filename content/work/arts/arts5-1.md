@@ -1,6 +1,6 @@
 ---
 alt: "Живопись: белые и чёрные дома у воды на фоне гор"
-weight: 60
+weight: 120
 images:
 - /images/arts/arts5-1.jpg
 tags:

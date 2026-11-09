@@ -1,7 +1,7 @@
 ---
 title: Курица
 alt: "Графика: курица с узорчатым оперением в чёрной раме"
-weight: -60
+weight: 30
 images:
 - /images/graphics/hen.jpg
 tags:

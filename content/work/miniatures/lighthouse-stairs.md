@@ -1,7 +1,7 @@
 ---
 title: Маяк — лестница и вход
 alt: "Миниатюра: белый маяк с чёрной верхушкой, лестницей и ограждением на площадке среди белых камней"
-weight: 38
+weight: 40
 images:
 - /images/miniatures/lighthouse-stairs.jpg
 tags:

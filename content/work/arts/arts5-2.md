@@ -1,6 +1,6 @@
 ---
 alt: "Живопись: птицы на проводе"
-weight: 59
+weight: 90
 images:
 - /images/arts/arts5-2.jpeg
 tags:

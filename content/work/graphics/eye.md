@@ -1,6 +1,6 @@
 ---
 alt: "Графика: глаз крупным планом"
-weight: 2
+weight: 130
 images:
 - /images/graphics/eye.jpg
 tags:

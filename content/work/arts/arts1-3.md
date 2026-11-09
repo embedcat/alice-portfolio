@@ -1,6 +1,6 @@
 ---
 alt: "Живопись: равнина под широким синим небом"
-weight: 98
+weight: 220
 images:
 - /images/arts/arts1-3.jpeg
 tags:

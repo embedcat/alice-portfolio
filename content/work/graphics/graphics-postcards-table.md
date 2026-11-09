@@ -1,7 +1,7 @@
 ---
 title: Открытки на выставке
 alt: "Открытки с графическими рисунками животных и конверты на выставочном столе"
-weight: -20
+weight: 70
 images:
 - /images/graphics/graphics-postcards-table.jpg
 tags:

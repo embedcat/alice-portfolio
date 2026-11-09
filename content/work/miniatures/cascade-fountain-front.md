@@ -1,7 +1,7 @@
 ---
 title: Каскадный фонтан — вид спереди
 alt: "Миниатюра: белый настенный фонтан с рядами чаш, декоративными колоннами и нижним бассейном"
-weight: 42
+weight: 80
 images:
 - /images/miniatures/cascade-fountain-front.jpg
 tags:

@@ -1,7 +1,7 @@
 ---
 title: Чертежи и модели декораций
 alt: "Чертежи и модели декораций"
-weight: -60
+weight: 110
 images:
 - /images/theater/scenery-drawings-models-4.png
 tags:

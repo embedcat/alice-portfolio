@@ -1,6 +1,6 @@
 ---
 alt: "Деревянная машинка-конструктор с рисунками животных, зелёная"
-weight: 1
+weight: 110
 images:
 - /images/design/car-1.webp
 tags:

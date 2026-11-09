@@ -1,6 +1,6 @@
 ---
 alt: "Живопись: спящая овца на тёмном фоне"
-weight: 69
+weight: 140
 images:
 - /images/arts/arts4-2.jpeg
 tags:

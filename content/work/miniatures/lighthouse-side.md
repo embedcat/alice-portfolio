@@ -1,7 +1,7 @@
 ---
 title: Маяк — вид сбоку
 alt: "Миниатюра: белый маяк с чёрным фонарным ярусом на серой площадке среди белых камней"
-weight: 39
+weight: 50
 images:
 - /images/miniatures/lighthouse-side.jpg
 tags:

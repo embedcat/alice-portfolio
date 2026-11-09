@@ -1,7 +1,7 @@
 ---
 title: Тим в мире бактерий
 alt: "Тим в мире бактерий"
-weight: 140
+weight: 300
 images:
 - /images/theater/tim-4.jpg
 tags:

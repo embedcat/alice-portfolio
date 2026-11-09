@@ -1,7 +1,7 @@
 ---
 title: Золотая антилопа
 alt: "Золотая антилопа"
-weight: 40
+weight: 240
 images:
 - /images/theater/zolot-antilopa.jpg
 tags:

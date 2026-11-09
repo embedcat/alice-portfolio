@@ -1,6 +1,6 @@
 ---
 alt: "Четыре деревянные машинки-конструктора в ряд"
-weight: 1
+weight: 40
 images:
 - /images/design/cars-2.jpg
 tags:
